@@ -1,5 +1,5 @@
 body {
-  opacity: 1;
+  background: var(--color-background-primary) !important;
 }
 
 .blink {
@@ -187,12 +187,4 @@ input[type="radio"]:focus + span {
 
 body > canvas {
   image-rendering: pixelated;
-}
-
-.nes-progress,
-.nes-textarea,
-.nes-balloon {
-  border-color: var(--color-text-primary);
-  border-image: none!important;
-  clip-path: polygon(0% var(--border-width), var(--border-width) var(--border-width), var(--border-width) 0%, calc(100% - var(--border-width)) 0%, calc(100% - var(--border-width)) var(--border-width), 100% var(--border-width), 100% calc(100% - var(--border-width)), calc(100% - var(--border-width)) calc(100% - var(--border-width)), calc(100% - var(--border-width)) 100%, var(--border-width) 100%, var(--border-width) calc(100% - var(--border-width)), 0% calc(100% - var(--border-width)));
 }

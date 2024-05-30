@@ -1,3 +1,4 @@
+const body = document.body;
 const encodedNotes = {
   eighth: `R0lGODlhCQALAIAAAAAAAAAAACH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEZAAEALAAAAAAJAAsAAAITjIFpAcub1HFtwovflVF1D0JNAQA7`,
   dblEighth: `R0lGODlhCAALAIABAAAAAP///yH+EUNyZWF0ZWQgd2l0aCBHSU1QACH5BAEZAAEALAAAAAAIAAsAAAIRjIGmmBvsHojT1bjagVlvZRQAOw==`,
@@ -154,7 +155,7 @@ const analyzeWindow = () => {
 
   scene.flowSpeed = Math.floor(
     (document.body.scrollHeight - height) /
-    (targetSceneWidth + images.duck.width)
+      (targetSceneWidth + images.duck.width)
   );
   scene.dimensions = [targetSceneWidth, pixelHeight];
 
@@ -178,3 +179,58 @@ Promise.all([
   });
   analyzeWindow();
 });
+
+const app = `<main class="nes-container with-title">
+      <p class="title">Jiggly (beta)</p>
+      <div id="output" class="stack gap-lg"></div>
+    </main>
+    <button class="hidden nes-btn is-error" id="globalStopBtn">
+      Stop playback
+    </button>
+    <canvas id="visualization"></canvas>`;
+
+const buttons = Array.from(document.getElementsByClassName("open-app"));
+
+const openApp = () => {
+  body.style.opacity = 0;
+  body.classList.remove("stack", "gap-xl", "align-center");
+  body.classList.add("padding-xl");
+  body.children[0].remove();
+  body.innerHTML = app;
+
+  const scriptTag = document.createElement("script");
+
+  if (import.meta.env.DEV) {
+    scriptTag.type = "module";
+    scriptTag.src = "/src/main.js";
+  } else {
+    const styleTag = document.createElement("link");
+    styleTag.rel = "stylesheet";
+    styleTag.href = "/assets/app.css";
+    document.head.appendChild(styleTag);
+    scriptTag.src = "/assets/app.js";
+  }
+
+  body.appendChild(scriptTag);
+
+  scriptTag.onload = () => {
+    document.getElementById("home-styles").remove();
+    const url = new URL(window.location.href);
+    url.hash = url.hash || `#menu`;
+
+    window.history.pushState(null, "", url.toString());
+
+    window.dispatchEvent(
+      new HashChangeEvent("hashchange", {
+        oldURL: window.location.href,
+        newURL: url,
+      })
+    );
+  };
+};
+
+for (const button of buttons) {
+  button.onclick = openApp;
+}
+
+if (new URL(window.location.href).hash) openApp();

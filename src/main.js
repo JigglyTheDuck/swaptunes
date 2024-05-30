@@ -1,4 +1,3 @@
-import "./main.css";
 import "./app.css";
 import { loadSettings, watchSetting, getSetting } from "./modules/settings";
 import menuRenderer from "./renderers/menu";
@@ -10,22 +9,44 @@ import helpRenderer from "./renderers/help";
 import settingsRenderer from "./renderers/settings";
 import jukeboxRenderer from "./renderers/jukebox";
 
-const lightStyles = `
+const darkStyles = `
 :root {
-    color: #213547;
-    --color-text-primary: #242424;
-    --color-text-secondary: #6a6a6a;
-    --color-primary: #108de0;
-    --color-primary-variant: #3990f0;
-    --color-secondary: #356570;
+  --color-text: #efefef;
+  --color-text-primary: #efefef;
+  --color-text-secondary: #cfcfcf;
+  --color-primary: #108de0;
+  --color-primary-variant: #3990f0;
+  --color-secondary: rgba(0, 0, 0, 0.5);
 
-    --color-background: #fafaff;
-    --color-background-primary: var(--color-background);
-    --color-background-shadow: #161616;
-    --color-background-secondary: #ffffff;
-    --color-background-disabled: #626262;
-}`;
-let lightModeStyles;
+  --color-background: #212529;
+  --color-background-primary: var(--color-background);
+  --color-background-shadow: #161616;
+  --color-background-secondary: #323230;
+  --color-background-disabled: #626262;
+
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.nes-balloon {
+  border-image-slice: 3;
+  border-image-width: 3;
+  border-image-repeat: stretch;
+  border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="8" height="8" xmlns="http://www.w3.org/2000/svg"><path d="M3 1 h1 v1 h-1 z M4 1 h1 v1 h-1 z M2 2 h1 v1 h-1 z M5 2 h1 v1 h-1 z M1 3 h1 v1 h-1 z M6 3 h1 v1 h-1 z M1 4 h1 v1 h-1 z M6 4 h1 v1 h-1 z M2 5 h1 v1 h-1 z M5 5 h1 v1 h-1 z M3 6 h1 v1 h-1 z M4 6 h1 v1 h-1 z" fill="rgb(255,255,255)" /></svg>');
+  border-image-outset: 0;
+  color: #fff;
+  background: #212529;
+  border-image-outset: 2;
+  box-shadow: 0 0 0 8px #212529;
+}
+.nes-container {
+  position: relative;
+  margin: 4px;
+  color: #fff;
+  background-color: #212529;
+  border-color: #fff;
+}
+`;
+let darkModeStyles;
 
 function renderDarkMode() {
   const browserPrefersDarkMode =
@@ -37,16 +58,13 @@ function renderDarkMode() {
     darkModeSetting === true ||
     (darkModeSetting !== false && browserPrefersDarkMode);
 
-  if (
-    (!browserPrefersDarkMode || darkModeSetting === false) &&
-    !lightModeStyles
-  ) {
-    lightModeStyles = document.createElement("style");
-    lightModeStyles.innerHTML = lightStyles;
-    document.head.appendChild(lightModeStyles);
-  } else if (isDarkMode && lightModeStyles) {
-    lightModeStyles.remove();
-    lightModeStyles = null;
+  if (browserPrefersDarkMode || (darkModeSetting === true && !darkModeStyles)) {
+    darkModeStyles = document.createElement("style");
+    darkModeStyles.innerHTML = darkStyles;
+    document.head.appendChild(darkModeStyles);
+  } else if (!isDarkMode && darkModeStyles) {
+    darkModeStyles.remove();
+    darkModeStyles = null;
   }
 
   // get a list of all .nes-containers
@@ -102,6 +120,7 @@ function getRenderer(hash) {
 let rendererDestroyer = null;
 function onHashChange(e) {
   const root = document.getElementById("output");
+  if (!root) return;
   if (rendererDestroyer) rendererDestroyer();
   root.innerText = "";
   let previousHash;
@@ -117,3 +136,4 @@ onHashChange();
 setInterval(renderDarkMode, 5000);
 
 addEventListener("hashchange", onHashChange);
+document.body.style.opacity = 1;

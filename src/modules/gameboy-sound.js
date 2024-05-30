@@ -95,6 +95,7 @@ export function allow(canvas) {
     canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
     if (!getSetting("visualization") || !getSetting("volume")) {
+      requestAnimationFrame(draw);
       return;
     }
     // Draw the bars

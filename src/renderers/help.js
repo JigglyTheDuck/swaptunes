@@ -12,16 +12,18 @@ const helpHomeTemplate = () => `
       label: "Get started",
     })}
     ${navItem({
-      to: "help/composition",
+      to:
+        "https://github.com/bastardastronaut/swaptunes/blob/master/docs/commands.md",
       label: "Composer",
-      id: "help__initial_focus",
+      external: true,
     })}
     ${navItem({
       to: "help/voting",
       label: "Trade & Vote",
     })}
     ${navItem({
-      to: "http://10.0.0.58:8080/whitepaper",
+      to:
+        "https://github.com/bastardastronaut/swaptunes/blob/master/docs/whitepaper.md",
       label: "Whitepaper",
       external: true,
     })}
@@ -47,7 +49,7 @@ ${header({ title: "Instructions" })}
       </p>
       <p class="text">
         You can vote multiple times in one segment but only your latest one will be considered for rewards.
-        More details in the <a href="">whitepaper</a>.
+        More details in the <a href="https://github.com/bastardastronaut/swaptunes/blob/master/docs/whitepaper.md" target="_blank" noreferer>whitepaper</a>.
       </p>
 `;
 
