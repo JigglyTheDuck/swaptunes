@@ -1,0 +1,141 @@
+:root {
+  --border-width: 4px;
+  --size-xs: 0.25rem;
+  --size-sm: 0.5rem;
+  --size-md: 1rem;
+  --size-lg: 2rem;
+  --size-xl: 4rem;
+
+  --size-width-xs: 8rem;
+  --size-width-sm: 16rem;
+  --size-width-md: 32rem;
+  --size-width-lg: 48rem;
+  --size-width-xl: 64rem;
+
+  --color-text-primary: #efefef;
+  --color-text-secondary: #cfcfcf;
+  --color-primary: #108de0;
+  --color-primary-variant: #3990f0;
+  --color-secondary: #356570;
+
+  --color-background: #212529;
+  --color-background-primary: var(--color-background);
+  --color-background-shadow: #161616;
+  --color-background-secondary: #323230;
+  --color-background-disabled: #626262;
+
+  --color-overlay: rgba(0, 0, 0, 0.66);
+
+  font-weight: 400;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /*color-scheme: light dark;*/
+  color: rgba(255, 255, 255, 0.87);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media screen and (max-width: 48rem) {
+  :root {
+    --size-md: 0.5rem;
+    --size-lg: 1.25rem;
+    --size-xl: 0.25rem;
+  }
+  body > main.nes-container.with-title > .title {
+  }
+  body > main.nes-container {
+    padding: 1.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  .nes-radio {
+    margin-right: 0;
+  }
+}
+
+.nes-container.with-title > .title {
+  background: var(--color-background-primary);
+}
+
+.nes-input,
+textarea {
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary);
+}
+
+  .nes-balloon {
+    margin-bottom: 0;
+  }
+a {
+  font-weight: 500;
+  color: var(--color-primary);
+  text-decoration: inherit;
+}
+a:hover {
+  color: var(--color-primary-variant);
+}
+
+html,
+body {
+  max-width: 1024px;
+  margin: 0 auto;
+  color: var(--color-text-primary);
+  background: var(--color-background-primary)!important;
+}
+
+body {
+  opacity: 0;
+  transition: 0.5s;
+}
+
+body > header {
+  margin-top: 10vh;
+}
+
+html.injected,
+html.injected body {
+  background: none;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  margin: 0;
+}
+
+h1.secondary,
+h2.secondary,
+h3.secondary,
+h4.secondary,
+h5.secondary,
+p.secondary,
+span.secondary {
+  color: var(--color-text-secondary);
+}
+
+.text.sm,
+nav.sm,
+span.sm,
+p.sm {
+  font-size: 0.875rem;
+}
+
+span.lg,
+p.lg {
+  font-size: 1.25rem;
+}

@@ -1,0 +1,30 @@
+.keyboard span:hover,
+.editor-command span:hover {
+  background: var(--color-text-primary);
+  color: var(--color-background-primary);
+}
+
+.editor {
+  height: 33vh;
+  overflow-y: auto;
+}
+
+.keyboard {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, max-content));
+  justify-content: center;
+  align-self: stretch;
+}
+
+textarea.editor {
+  height: 33vh;
+}
+
+.editor-row-active {
+  padding-top: 2rem;
+}
+
+.editor-loop {
+  margin-left: -0.5rem;
+}

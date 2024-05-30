@@ -1,0 +1,198 @@
+body {
+  opacity: 1;
+}
+
+.blink {
+  animation: blink 1s infinite steps(1);
+}
+
+.loading {
+  color: var(--color-primary);
+  animation: blink 1s infinite steps(1);
+}
+
+#visualization {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.5s;
+}
+
+#visualization.active {
+  opacity: 1;
+}
+
+@media screen and (max-width: 64rem) {
+  #visualization.active {
+    background: var(--color-background-primary);
+    z-index: 3;
+  }
+}
+
+.nes-container {
+  position: relative;
+  background: var(--color-background-primary);
+}
+
+.option-box {
+  min-width: 16rem;
+}
+
+.option-box.selected {
+  background: var(--color-primary);
+  color: white;
+}
+
+/*
+.option-box.alternate > span:first-of-type {
+  align-self: flex-start;
+}
+
+.option-box.alternate > span:last-of-type {
+  align-self: flex-end;
+}*/
+
+.relative {
+  position: relative;
+}
+
+.overlay { 
+  position: absolute;
+  inset: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  background: var(--color-overlay);
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  background: var(--color-background);
+}
+
+canvas {
+  width: 100%;
+  flex-grow: 1;
+}
+
+label.input:first-of-type {
+  margin-top: 1rem;
+}
+
+.channels-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.option-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, max-content));
+  justify-content: center;
+  padding: initial;
+  align-self: stretch;
+}
+
+.option-container.bars {
+  grid-template-columns: auto 1fr;
+  grid-gap: 0.5rem 1rem;
+}
+
+@media screen and (max-width: 48rem) {
+  .channels-container {
+    display: flex;
+  }
+
+  .option-container {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+  }
+  .option-container.bars {
+    align-items: stretch;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+.composition-output {
+  margin: 0;
+}
+
+pre {
+  white-space: break-spaces;
+}
+
+h1,
+.nes-btn {
+  text-transform: uppercase;
+  text-transform: uppercase;
+}
+
+.progress {
+  height: 1.5rem;
+  background: var(--color-text-primary);
+}
+
+#globalStopBtn {
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  position: fixed;
+  bottom: 0.25rem;
+  z-index: 5;
+  max-width: 16rem;
+}
+
+.nes-list.is-circle li::before {
+  left: -32px !important;
+}
+
+nav.settings.stack.gap-md,
+form.menu-nav.stack.gap-md {
+  gap: 1.25rem;
+}
+
+form.menu-nav > label,
+form > a {
+  color: var(--color-text-primary);
+  text-decoration: none !important;
+}
+
+input[type="radio"]:focus + span {
+  color: var(--color-primary);
+}
+
+.progress-container {
+  position: relative;
+}
+
+.progress-container .nes-progress-value {
+  position: absolute;
+  top: 1rem;
+  width: 100%;
+  text-align: center;
+}
+
+.editor-command.active {
+  background: var(--color-primary);
+  color: var(--color-background-primary);
+}
+
+body > canvas {
+  image-rendering: pixelated;
+}
+
+.nes-progress,
+.nes-textarea,
+.nes-balloon {
+  border-color: var(--color-text-primary);
+  border-image: none!important;
+  clip-path: polygon(0% var(--border-width), var(--border-width) var(--border-width), var(--border-width) 0%, calc(100% - var(--border-width)) 0%, calc(100% - var(--border-width)) var(--border-width), 100% var(--border-width), 100% calc(100% - var(--border-width)), calc(100% - var(--border-width)) calc(100% - var(--border-width)), calc(100% - var(--border-width)) 100%, var(--border-width) 100%, var(--border-width) calc(100% - var(--border-width)), 0% calc(100% - var(--border-width)));
+}

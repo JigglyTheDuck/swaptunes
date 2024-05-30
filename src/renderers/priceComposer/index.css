@@ -1,0 +1,75 @@
+.options {
+  margin-top: 3rem;
+  margin-bottom: -3rem;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.options > span {
+  position: relative;
+}
+
+.options > span:nth-child(even) {
+  width: 100%;
+  max-width: 12rem;
+  padding-right: 3rem;
+  position: relative;
+  top: -3rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 3rem;
+  line-height: 1.25em;
+  padding-right: 2.25rem;
+  text-align: left;
+  border-right: 4px solid var(--color-text-primary);
+}
+
+.options:not(.nes-text) {
+  color: var(--color-text-secondary);
+}
+
+.options > span.active {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.options > span:nth-child(odd) {
+  position: relative;
+  z-index: 1;
+  top: -1.5rem;
+  padding-left: 2rem;
+}
+
+.options > span:nth-child(odd)::before {
+  content: " ";
+  position: absolute;
+  left: calc(-2px - 0.5rem);
+  bottom: 0.5rem;
+  background: var(--color-text-primary);
+  width: 1rem;
+  height: 4px;
+}
+
+.options .mark {
+  position: absolute;
+  content: "";
+  left: 50%;
+  width: 2px;
+  height: 2px;
+  top: -8px;
+  color: var(--color-primary);
+  transition: transform .25s;
+  box-shadow: 2px 2px, 4px 2px, 2px 4px, 4px 4px, 6px 4px, 8px 4px, 2px 6px,
+    4px 6px, 6px 6px, 8px 6px, 10px 6px, 2px 8px, 4px 8px, 6px 8px, 8px 8px,
+    10px 8px, 12px 8px, 2px 10px, 4px 10px, 6px 10px, 8px 10px, 10px 10px,
+    2px 12px, 4px 12px, 6px 12px, 8px 12px, 2px 14px, 4px 14px;
+}
+
+@media screen and (max-width: 22rem) {
+  .options .mark {
+  }
+}

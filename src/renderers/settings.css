@@ -1,0 +1,20 @@
+.settings {
+  white-space: nowrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  column-gap: var(--size-md);
+  row-gap: 1.25rem;
+  padding: initial;
+  align-self: stretch;
+  max-width: 28rem;
+}
+
+.settings > span {
+  justify-self: center;
+  font-size: 0.875rem;
+}
+.settings label {
+  margin: 0;
+}
+

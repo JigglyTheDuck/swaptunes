@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-md.png" />
+    <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css" />
+    <link rel="stylesheet" href="/index.css" />
+    <link rel="stylesheet" href="/layout.css" />
+
+    <meta name="title" content="Jiggly - Collaborative Music Creation Through Crypto Trading">
+    <meta name="description" content="Jiggly combines cryptocurrency trading with collaborative music composition. Trade, vote, and create music segments stored on the blockchain. Join our beta and be part of a unique community-driven art form.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jiggly.app">
+    <meta property="og:title" content="Jiggly - Collaborative Music Creation Through Crypto Trading">
+    <meta property="og:description" content="Jiggly combines cryptocurrency trading with collaborative music composition. Trade, vote, and create music segments stored on the blockchain. Join our beta and be part of a unique community-driven art form.">
+    <meta property="og:image" content="https://jiggly.app/favicon-lg.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://jiggly.app">
+    <meta property="twitter:title" content="Jiggly - Collaborative Music Creation Through Crypto Trading">
+    <meta property="twitter:description" content="Jiggly combines cryptocurrency trading with collaborative music composition. Trade, vote, and create music segments stored on the blockchain. Join our beta and be part of a unique community-driven art form.">
+    <meta property="twitter:image" content="https://jiggly.app/favicon-lg.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jiggly</title>
+  </head>
+  <body class="padding-xl">
+    <main class="nes-container with-title">
+      <p class="title">Jiggly (beta)</p>
+      <div id="output" class="stack gap-lg"></div>
+    </main>
+    <button class="hidden nes-btn is-error" id="globalStopBtn">
+      Stop playback
+    </button>
+    <script type="module" src="/src/main.js"></script>
+    <canvas id="visualization"></canvas>
+  </body>
+</html>
