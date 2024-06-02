@@ -1,6 +1,0 @@
-.jukebox {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, max-content));
-  justify-content: center;
-  align-self: stretch;
-}

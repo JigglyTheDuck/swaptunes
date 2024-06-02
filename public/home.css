@@ -101,8 +101,7 @@ body > canvas {
   z-index: -1;
 }
 
-article:last-of-type,
-article > div:not(.transparent) {
+article {
   background: var(--color-secondary);
 }
 article:last-of-type {

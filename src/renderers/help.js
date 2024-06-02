@@ -28,6 +28,12 @@ const helpHomeTemplate = () => `
       external: true,
     })}
     ${navItem({
+      to:
+        "https://github.com/bastardastronaut/swaptunes/blob/master/docs/whitepaper.md",
+      label: "MIDI parser",
+      external: true,
+    })}
+    ${navItem({
       to: "",
       label: "Back",
     })}

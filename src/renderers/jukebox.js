@@ -1,5 +1,5 @@
-import "./jukebox.css";
 import header from "../components/header";
+import playBtn from "../components/playbtn";
 import { Encoder } from "../modules/encoder";
 import { Parser } from "../modules/parser";
 import { route, checksum } from "../utils";
@@ -16,10 +16,11 @@ const trackTemplate = ({ id, name, isOriginal }) =>
   </div>
   <div class="inline gap-sm">
   <button id="jukebox__${id}_edit" class="nes-btn is-primary">edit</button>
+  
   ${
     isOriginal
       ? `<button id="jukebox__${id}_open" class="nes-btn is-success">open</button>`
-      : ``
+      : `<button id="jukebox__${id}_play" class="nes-btn is-success">play</button>`
   }
     </div>
   </div>`;
@@ -32,7 +33,7 @@ ${header({
       ? ""
       : `<p>Songs created with Jiggly will appear here.</p>`,
 })}
-<div class="jukebox grid gap-md">
+<div class="inline sm wrap gap-md">
     ${(originalTracks.length > 0 ? originalTracks : tracks)
       .map(trackTemplate)
       .join("")}
@@ -71,8 +72,11 @@ export default (root) => {
     ({ id }) => ({
       openBtn: document.getElementById(`jukebox__${id}_open`),
       editBtn: document.getElementById(`jukebox__${id}_edit`),
+      playBtn: document.getElementById(`jukebox__${id}_play`),
     })
   );
+
+  const plays = [];
 
   if (compositions.length === 0) {
     for (let i = 0; i < songs.length; ++i) {
@@ -80,6 +84,7 @@ export default (root) => {
       elements[i].editBtn.disabled = true;
       fetchSong(songs[i].id).then(() => {
         elements[i].editBtn.disabled = false;
+        plays.push(playBtn(elements[i].playBtn, () => cache[songs[i].id]));
         elements[i].editBtn.onclick = () => {
           new Encoder()
             .encode(cache[songs[i].id])
@@ -102,4 +107,7 @@ export default (root) => {
       };
     }
   }
+  return () => {
+    plays.map((p) => p());
+  };
 };

@@ -46,7 +46,7 @@ const darkStyles = `
   border-color: #fff;
 }
 `;
-let darkModeStyles;
+let darkModeStyles = null;
 
 function renderDarkMode() {
   const browserPrefersDarkMode =
@@ -58,7 +58,7 @@ function renderDarkMode() {
     darkModeSetting === true ||
     (darkModeSetting !== false && browserPrefersDarkMode);
 
-  if (browserPrefersDarkMode || (darkModeSetting === true && !darkModeStyles)) {
+  if (isDarkMode && darkModeStyles === null) {
     darkModeStyles = document.createElement("style");
     darkModeStyles.innerHTML = darkStyles;
     document.head.appendChild(darkModeStyles);

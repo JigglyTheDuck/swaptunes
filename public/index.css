@@ -27,7 +27,7 @@
   --color-text-secondary: #6a6a6a;
   --color-primary: #108de0;
   --color-primary-variant: #3990f0;
-  --color-secondary: #356570;
+  --color-secondary: rgba(255, 255, 255, 0.75);
 
   --color-background: #fafaff;
   --color-background-primary: var(--color-background);
