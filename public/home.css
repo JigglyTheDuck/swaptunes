@@ -55,6 +55,10 @@
     --size-lg: 1.25rem;
     --size-xl: 1rem;
   }
+
+  #community {
+    align-self: center;
+  }
 }
 article button {
   font-size: 1rem;
@@ -101,7 +105,8 @@ body > canvas {
   z-index: -1;
 }
 
-article {
+article,
+article section {
   background: var(--color-secondary);
 }
 article:last-of-type {
@@ -116,4 +121,8 @@ article {
 
 p.title {
   font-family: "Press Start 2P", monospace !important;
+}
+
+article section ul {
+  margin-left: 1rem;
 }

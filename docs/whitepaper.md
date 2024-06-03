@@ -138,6 +138,6 @@ The web app provides a real-time view of ongoing compositions, enabling users to
 
 ## Roadmap
 
-Jiggly begins its journey as the on-chain music composer. The beta phase is expected to last ~1-2 months after which the token launches, with all potential issues identified. The purpose of the beta is to make sure the smart contract behaves correctly and provides an opportunity to fine tune certain variables.
+Jiggly begins its journey as the on-chain music composer. The beta phase is expected to last ~1-2 months after which the token launches, with all potential issues identified. The purpose of the beta is to make sure the smart contract behaves correctly and provides an opportunity to fine tune the initial variables.
 
-Once the Jiggly DAO takes effect (more than 10% of supply is released through rewards) Jiggly might shift its focus from music composition to some other - community chosen - form of medium and the musical composer will move to support other arbitrary data sources.
+Once the Jiggly DAO takes effect (more than 10% of supply is released through rewards) Jiggly might shift its focus from music composition to some other - community chosen - form of medium and the musical composer will instead move to support other arbitrary data sources.

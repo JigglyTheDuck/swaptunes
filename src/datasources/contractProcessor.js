@@ -40,7 +40,7 @@ export class ContractProcessor {
       listener
         ? listener(
             this.composer.renderTrack(),
-            { segment: this.getNextSegment() },
+            { segment: this.getNextSegment(), lastBlock: this.lastBlock },
             isOver
           )
         : null;
@@ -59,6 +59,8 @@ export class ContractProcessor {
       }
       notify(false);
     }
+
+    notify(false)
 
     await new Promise((r) => setTimeout(r), 100);
 

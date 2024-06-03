@@ -126,11 +126,11 @@ Purpose: Sets the characteristics and articulation style of subsequent notes bas
 Parameters:
 
 - Type: Determines the general articulation or playing style of the notes. Possible values and their general interpretations might be:
-  - 12: Some form of accentuation or emphasis
-- Intensity: Adjusts the intensity or depth of the selected articulation type. The exact effect of this parameter would depend on the articulation type but generally might affect the volume, attack time, or decay rate of the note.
-  - accepted values: 0-15
-- Offset: Likely adjusts pitch or timing offset for the note. Negative values could represent a pitch bend down or a timing delay, while positive values might indicate a pitch bend up or timing advance. This parameter allows for fine-tuning of how each note interacts within the context of its articulation.
-  - accepted values: a number between -7 to +7
+  - 12: The first argument is not used and is defaulted to 12
+  - Velocity: Since the first parameter is set to default this is more or less analogous to volume.
+    - accepted values: 0-15
+  - Fade: Sets how quickly the node fades, negative values cause note overlap.
+    - accepted values: a number between -7 to +7
 
 Example: `note_type 13, 4, -4`
 

@@ -210,27 +210,6 @@ export class OutputRenderer {
 
   _show(element) {
     element.classList.remove("hidden");
-    /*
-    const isDarkMode =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-    if (
-      element.classList.contains("nes-container") ||
-      element.classList.contains("nes-balloon") ||
-      element.classList.contains("nes-dialog")
-    ) {
-      element.classList[isDarkMode ? "add" : "remove"]("is-dark");
-    }
-
-    // TODO: erm, this is horrible
-    element.parentElement.classList.remove("hidden");
-    if (
-      element.parentElement.classList.contains("nes-container") ||
-      element.parentElement.classList.contains("nes-balloon") ||
-      element.parentElement.classList.contains("nes-dialog")
-    ) {
-      element.parentElement.classList[isDarkMode ? "add" : "remove"]("is-dark");
-    }*/
   }
 
   _hide(element) {
@@ -289,6 +268,7 @@ export class OutputRenderer {
       `<span class="nes-text is-primary blink">loading...</span>`
     );
   }
+
   enterFinishedState() {
     this._show(this.elements.actions.share);
     this._show(this.elements.actions.compose);
@@ -693,7 +673,8 @@ export class OutputRenderer {
       }
       return this._enterState("composing");
     }
-    this._renderTime(details.segment);
+    //this._renderTime(details.segment);
+    this._render(this.elements.time, details.lastBlock);
     this._render(
       this.elements.composition.previous,
       track.split("\n").slice(-10).join("\n")
