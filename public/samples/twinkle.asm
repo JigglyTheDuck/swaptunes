@@ -1,6 +1,6 @@
 channel::
 .loop:
-  note_type 12, 9, 4
+  note_type 12, 9, 5
   duty_cycle 1
   note C_, 4
   note C_, 4

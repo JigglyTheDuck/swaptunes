@@ -10,7 +10,7 @@ import { loadCompositions } from "../modules/storage";
 // users can go back and forth here and download for offline storage to listen to later
 
 const trackTemplate = ({ id, name, isOriginal }) =>
-  `<div class="stack gap-md padding-md nes-balloon">
+  `<div class="stack gap-md nes-balloon padding-md">
   <div class="inline gap-sm align-center">
   <h3>${name}</h3>
   </div>

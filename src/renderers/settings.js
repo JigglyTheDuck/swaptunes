@@ -6,6 +6,7 @@ import { useNavigate, useAutofocus } from "../utils";
 import {
   toggleSetting,
   toggleDarkMode,
+  toggleRPCUrl,
   toggleComposerUI,
   toggleVolume,
   loadSettings,
@@ -25,6 +26,8 @@ const displaySetting = (setting, value) => {
       return value === "auto" ? "AUTO" : value ? "FRIENDLY" : "TEXT";
     case "darkMode":
       return value === "auto" ? "AUTO" : value ? "ON" : "OFF";
+    case "rpcUrl":
+      return value;
     case "defaultScale":
       return Object.keys(scales)[value || 0];
   }
@@ -49,6 +52,11 @@ const template = (settings) => `
       label: "Dark mode",
     })}
     <span>${displaySetting("darkMode", settings.darkMode)}</span>
+    ${navItem({
+      value: "rpcUrl",
+      label: "RPC url",
+    })}
+    <span>${displaySetting("rpcUrl", settings.rpcUrl)}</span>
     ${linkNav({
       to: "",
       label: "Back",
@@ -81,6 +89,8 @@ const toggleSettings = (setting, settings) => {
       return toggleSetting(settings, "clipboard");
     case "darkMode":
       return toggleDarkMode(settings);
+    case "rpcUrl":
+      return toggleRPCUrl(settings);
     case "composerUI":
       return toggleComposerUI(settings);
     case "defaultScale":

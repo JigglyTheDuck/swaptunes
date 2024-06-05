@@ -1,4 +1,7 @@
 import { keys as scales } from "./composers/_priceComposer";
+import config from "../config";
+
+const rpcKeys = Object.keys(config.contract.rpcUrls);
 
 const settingKeys = [
   "darkMode",
@@ -8,6 +11,7 @@ const settingKeys = [
   "visualization",
   "composerUI",
   "defaultScale",
+  "rpcUrl",
 ];
 
 // TODO: add duck as waveform option
@@ -18,6 +22,7 @@ const settings = {
   darkMode: "auto",
   operationMode: "market",
   defaultScale: 0,
+  rpcUrl: "DRPC",
 };
 
 const watchers = settingKeys.reduce(
@@ -52,6 +57,13 @@ export const toggleDarkMode = (settings) => {
       ? false
       : "auto";
   notify("darkMode");
+  return settings;
+};
+
+export const toggleRPCUrl = (settings) => {
+  const index = rpcKeys.indexOf(settings.rpcUrl);
+  settings.rpcUrl = rpcKeys[(index + 1) % rpcKeys.length];
+  notify("rpcUrl");
   return settings;
 };
 

@@ -10,18 +10,22 @@ const samplingConfig = {
       name: "tempo",
       cmd: "tempo",
       options: [
+        "98",
         "100",
         "104",
         "112",
+        "120",
         "124",
         "128",
         "132",
+        "138",
         "140",
         "144",
         "148",
         "152",
         "156",
         "160",
+        "224",
       ],
     },
     {
@@ -37,7 +41,7 @@ const samplingConfig = {
     {
       cmd: "note_type",
       options: [
-        { options: ["13", "12", "4", "6", "8"] },
+        { options: ["12"] },
         {
           options: [
             "0",

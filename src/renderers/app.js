@@ -14,7 +14,9 @@ import {
 import { formatDate } from "./market/templates";
 import { ContractProcessor } from "../datasources/contractProcessor";
 import { JsonRpcProvider, WebSocketProvider } from "ethers";
+import { getSetting } from "../modules/settings";
 import config from "../config";
+import "./app.css";
 
 const layout = () => `
 <dialog class="nes-dialog width-md" id="output__compositionFailedDialog">
@@ -22,28 +24,6 @@ const layout = () => `
     <div class="nes-field">
       <p>Song composition failed :(</p>
     </div>
-    <menu class="dialog-menu inline justify-center padding-sm align-center">
-      <button class="nes-btn">back</button>
-    </menu>
-  </form>
-</dialog>
-<dialog class="nes-dialog width-md" id="output__tradeDialog">
-  <form method="dialog">
-    <!--
-    <iframe
-      src="https://app.uniswap.org/swap?outputCurrency=0x6982508145454ce325ddbe47a25d4ec3d2311933"
-      height="660px"
-      width="100%"
-      style="
-        border: 0;
-        margin: 0 auto;
-        margin-bottom: .5rem;
-        display: block;
-        border-radius: 10px;
-        max-width: 960px;
-        min-width: 300px;
-      "
-  ></iframe>-->
     <menu class="dialog-menu inline justify-center padding-sm align-center">
       <button class="nes-btn">back</button>
     </menu>
@@ -85,12 +65,12 @@ const layout = () => `
 </dialog>
 <header class="inline md justify-space-between gap-md align-center">
   <p class="nes-text hidden text align-center" id="output__message"></p>
-  <p class="stack text sm border bg-secondary padding-md">
+  <p class="stack text sm">
     <span id="output__currentTime"></span>
     <span id="output__currentPoolSize"></span>
   </p>
   <div class="inline gap-sm">
-  <button id="output__actionInsertSong" class="nes-btn is-success hidden">add song</button>
+    <button id="output__actionShare" class="nes-btn is-success hidden">share</button>
     <a href="${href(
       "#menu"
     )}" id="back-to-menu" class="nes-btn is-error">menu</a>
@@ -106,10 +86,12 @@ const layout = () => `
   <!--<p class="width-sm">put song symbols here, and animate them when playing, actually you can even translate the text into music sheets https://codepen.io/gvissing/pen/BKmmpJ </p>-->
 </div>
 <div class="inline justify-center gap-sm wrap">
-    <button id="output__actionShare" class="nes-btn hidden">share</button>
+    <button id="output__actionInsertSong" class="nes-btn hidden">add song</button>
     <button id="output__actionPlay" class="nes-btn hidden is-primary">play</button>
+    <a href="https://app.uniswap.org/swap?inputCurrency=${
+      config.contract.address
+    }&outputCurrency=0xe53bF56F8E5BfC508A08cD2C375c0257044114F7" target="_blank" rel="noreferer" id="output__actionTrade" class="nes-btn is-warning hidden">trade</a>
     <button id="output__actionCompose" class="nes-btn hidden">compose</button>
-    <button id="output__actionTrade" class="nes-btn is-warning hidden">trade</button>
     <!--
   <button id="output__actionPrev" class="nes-btn hidden is-primary">previous</button>
   <button id="output__actionNext" class="nes-btn hidden is-primary">next</button>
@@ -146,7 +128,6 @@ export class OutputRenderer {
 
   elements = {
     failureDialog: null,
-    tradeDialog: null,
     songDialog: {
       root: null,
       form: null,
@@ -404,6 +385,7 @@ export class OutputRenderer {
 
     const optionsAndVotes = this.getNextOptions();
     const previewOptionIndex = this._findMatchingOption(optionsAndVotes);
+    /*
     if (this.isSegmentConfirmed) {
       for (const option of optionsAndVotes) {
         const container = document.createElement("div");
@@ -433,7 +415,7 @@ export class OutputRenderer {
 
       // render table of options
       return;
-    }
+    }*/
 
     optionsContainer.classList.add("bars");
 
@@ -451,8 +433,9 @@ export class OutputRenderer {
       const labelContainer = document.createElement("div");
       percentContainer.classList.add("inline", "gap-sm");
       labelContainer.classList.add(
+        "label-container",
         "inline",
-        "justify-space-between",
+        "justify-end",
         "gap-lg",
         "nes-text"
       );
@@ -631,8 +614,8 @@ export class OutputRenderer {
       this.processor.getVotes(),
       this.processor.getRewardPoolSize(),
     ]).then(([votes, poolSize]) => {
-      this.isSegmentConfirmed =
-        Date.now() / 1000 > this.processor.getNextSegment();
+      this.isSegmentConfirmed = false;
+      // Date.now() / 1000 > this.processor.getNextSegment();
 
       // TODO: check what happens when composition is finished
       if (this.isSegmentConfirmed)
@@ -686,7 +669,6 @@ export class OutputRenderer {
     const _id = (id) => document.getElementById(`output__${id}`);
     this.elements = {
       failureDialog: _id("compositionFailedDialog"),
-      tradeDialog: _id("tradeDialog"),
       songDialog: {
         root: _id("dialog"),
         form: _id("dialogForm"),
@@ -730,16 +712,14 @@ export class OutputRenderer {
     );
     this.elements.actions.insertSong.onclick = this.onInsertClick.bind(this);
     this.elements.actions.share.onclick = this.onShareClick.bind(this);
-    this.elements.actions.trade.onclick = this.onTradeClick.bind(this);
     copyBtn(this.elements.shareDialog.copy, () => window.location.href);
     this.elements.actions.compose.onclick = () =>
       new Encoder()
         .encode(this.previewTrack || this.processor.composer.renderTrack())
         .then((previewTrack) => route("composer", { previewTrack }));
 
-    this.elements.songDialog.closeBtn.onclick = this.onDialogBackClick.bind(
-      this
-    );
+    this.elements.songDialog.closeBtn.onclick =
+      this.onDialogBackClick.bind(this);
     this.elements.songDialog.form.onsubmit = this.onTrackSubmit.bind(this);
     //this.elements.actions.trade.href = `https://v2.info.uniswap.org/pair/${this.processor.params.address}`;
     playBtn(
@@ -803,10 +783,6 @@ export class OutputRenderer {
     this.elements.shareDialog.root.showModal();
   }
 
-  onTradeClick() {
-    this.elements.tradeDialog.showModal();
-  }
-
   static copyToClipBoard(toCopy) {
     return navigator.clipboard
       .writeText(toCopy)
@@ -832,7 +808,7 @@ export default (root) => {
   const processor = new ContractProcessor(
     config.contract.address,
     //new JsonRpcProvider("https://base.llamarpc.com")
-    new WebSocketProvider(config.contract.rpcUrl)
+    new WebSocketProvider(config.contract.rpcUrls[getSetting("rpcUrl")])
   );
 
   let renderer;
@@ -846,10 +822,14 @@ export default (root) => {
       // error rendering
     })
     .finally(async () => {
-      processor.process(
-        renderer.renderProcessing.bind(renderer),
-        await processor.findSongFirstBlock(await processor.getLatestBlock())
-      );
+      try {
+        await processor.process(
+          renderer.renderProcessing.bind(renderer),
+          await processor.findSongFirstBlock(config.contract.initialBlock)
+        );
+      } catch (e) {
+        route("menu");
+      }
     });
 
   return () => {

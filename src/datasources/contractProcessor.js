@@ -11,7 +11,7 @@ export class ContractProcessor {
   provider;
   previousTimestamp;
   lastBlock;
-  blockRequestLimit = 1000;
+  blockRequestLimit = config.contract.blockRequestLimit;
   latestBlockCache = {
     timestamp: 0,
     blockHeight: 0,
@@ -60,7 +60,7 @@ export class ContractProcessor {
       notify(false);
     }
 
-    notify(false)
+    notify(false);
 
     await new Promise((r) => setTimeout(r), 100);
 
@@ -77,37 +77,44 @@ export class ContractProcessor {
 
   processEvent(event) {
     this.composer.applyOption(parseInt(dataSlice(event.data, 31, 32), 16));
+    if (this.composer.getNextOptions().length === 1) {
+      // automatically move on from 0 option actions
+      this.composer.applyOption(0);
+    }
     this.previousTimestamp += this.segmentLength;
   }
 
   async initializeSong(blockNumber) {
-    this.segmentLength = 7200n;
+    this.segmentLength = 1800n;
     this.previousTimestamp = BigInt(
       (await this.provider.getBlock(blockNumber)).timestamp
     );
   }
 
-  async findContractCreation() {
-    debugger;
-  }
-
   // finds the first block of the previous new song
-  async findSongFirstBlock(toBlock) {
-    const fromBlock = toBlock - this.blockRequestLimit;
+  async findSongFirstBlock(fromBlock) {
+    const toBlock = fromBlock + this.blockRequestLimit;
     if (fromBlock < config.contract.initialBlock - this.blockRequestLimit) {
-      debugger;
       return null;
     }
     const filter = {
       address: this.address,
       fromBlock,
       toBlock,
-      topics: [id("SongLimit(uint8)")],
+      topics: [id("Limit()")],
     };
 
-    await this.initializeSong(config.contract.initialBlock);
+    const results = await this.tryToGetLogs(filter);
 
-    return Promise.resolve(config.contract.initialBlock);
+    if (results.length === 0) {
+      return this.findSongFirstBlock(toBlock);
+    }
+
+    const initialBlock = results[0].blockNumber
+
+    this.initializeSong(initialBlock)
+
+    return Promise.resolve(initialBlock);
   }
 
   async tryToGetLogs(filter, retryCount = 0) {
@@ -115,7 +122,7 @@ export class ContractProcessor {
     try {
       return await this.provider.getLogs(filter);
     } catch (e) {
-      await new Promise(r => setTimeout(r, 1000))
+      await new Promise((r) => setTimeout(r, 1000));
       return this.tryToGetLogs(filter, retryCount + 1);
     }
   }

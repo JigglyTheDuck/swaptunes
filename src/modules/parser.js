@@ -60,6 +60,10 @@ export class Parser {
       values[1] = this.loopDefinitions[channelIndex][values[1]];
     }
 
+    if (cmd === "note_type") {
+      values[0] = '12';
+    }
+
     this.commit(cmd);
 
     for (const v of values) {
