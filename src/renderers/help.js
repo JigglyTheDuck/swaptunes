@@ -29,7 +29,7 @@ const helpHomeTemplate = () => `
     })}
     ${navItem({
       to:
-        "https://github.com/bastardastronaut/swaptunes/blob/master/docs/whitepaper.md",
+        "https://github.com/JigglyTheDuck/midi-parser",
       label: "MIDI parser",
       external: true,
     })}

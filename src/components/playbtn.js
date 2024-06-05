@@ -33,6 +33,10 @@ export const _playBtn = (button, getTrack, hooks) => {
     if (latestCallback) latestCallback();
     let isPlaying = true;
     const updateFavicon = (frame = 0) => {
+      if (frame === -1) {
+        favicon.href = "/favicon-md.png";
+        return;
+      }
       favicon.href = "data:image/png;base64," + faviconFrames[frame];
 
       setTimeout(() => {
@@ -50,7 +54,7 @@ export const _playBtn = (button, getTrack, hooks) => {
 
     // favicon.href = "/favicon-active.gif";
     const ctx = await playAll(digestSong(getTrack()));
-    if (hooks?.onPlay) hooks.onPlay()
+    if (hooks?.onPlay) hooks.onPlay();
     globalStopBtn.classList.remove("hidden");
     button.disabled = false;
     button.classList.remove("is-disabled");
@@ -62,7 +66,7 @@ export const _playBtn = (button, getTrack, hooks) => {
       latestCallback = null;
       isPlaying = false;
       canvas.classList.remove("active");
-      updateFavicon();
+      updateFavicon(-1);
       button.onclick = onclick;
       button.innerText = label;
       globalStopBtn.classList.add("hidden");

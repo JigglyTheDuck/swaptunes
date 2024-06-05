@@ -110,7 +110,6 @@ const layout = () => `
 export class OutputRenderer {
   curretPoolSize = 0;
   latestVotes;
-  nextSegment;
   isRendering;
   processor;
   root;
@@ -272,8 +271,6 @@ export class OutputRenderer {
   }
 
   enterComposingState() {
-    this.nextSegment = this.processor.getNextSegment();
-
     if (this.previewTrack) {
       try {
         this.setPreviewTrack(this.previewTrack);
@@ -328,18 +325,6 @@ export class OutputRenderer {
   }
 
   getComposer() {
-    if (this.isSegmentConfirmed) {
-      const composer = this.processor.composer.copy();
-
-      composer.applyOption(
-        this.latestVotes.reduce(
-          (acc, v, i) => (v > acc.value ? { index: i, value: v } : acc),
-          { index: 0, value: 0n }
-        ).index
-      );
-      return composer;
-    }
-
     return this.processor.composer;
   }
 
@@ -375,9 +360,7 @@ export class OutputRenderer {
   renderOptions() {
     this._render(
       this.elements.options,
-      `<div class="inline md gap-sm"><p class="text">Next command</p>${
-        this.isSegmentConfirmed ? `<p>(no votes yet)</p>` : ""
-      }`
+      `<div class="inline md gap-sm"><p class="text">Next command</p>`
     );
 
     const optionsContainer = document.createElement(`div`);
@@ -385,37 +368,6 @@ export class OutputRenderer {
 
     const optionsAndVotes = this.getNextOptions();
     const previewOptionIndex = this._findMatchingOption(optionsAndVotes);
-    /*
-    if (this.isSegmentConfirmed) {
-      for (const option of optionsAndVotes) {
-        const container = document.createElement("div");
-        const value = document.createElement("span");
-        const decimals = document.createElement("span");
-        decimals.classList.add("nes-text", "is-primary");
-        container.classList.add(
-          "nes-text",
-          "option-box",
-          "padding-md",
-          "justify-space-between",
-          "border",
-          "inline",
-          "gap-lg"
-        );
-        if (option.actionIndex === previewOptionIndex)
-          container.classList.add("is-success");
-
-        decimals.innerText = OutputRenderer.getOptionLabel(option.actionIndex);
-        value.innerText = option.option;
-        container.appendChild(value);
-        container.appendChild(decimals);
-        optionsContainer.appendChild(container);
-      }
-
-      this.elements.options.appendChild(optionsContainer);
-
-      // render table of options
-      return;
-    }*/
 
     optionsContainer.classList.add("bars");
 
@@ -482,7 +434,6 @@ export class OutputRenderer {
     const composer = this.getComposer();
     const trackLines = composer.renderTrack().split("\n");
     const command = composer.currentCommand;
-    const isPending = !this.isSegmentConfirmed;
 
     // simple enough, render last few lines
     this._render(
@@ -507,13 +458,11 @@ export class OutputRenderer {
       this.elements.composition.active.appendChild(activeCommand);
 
       // we currently have an active command
-      if (isPending) {
-        // command next value has been selected and is pending
-        const pendingValue = document.createElement("span");
-        pendingValue.innerText = "??? ";
-        pendingValue.classList.add("nes-text", "is-primary", "blink");
-        this.elements.composition.active.appendChild(pendingValue);
-      }
+      // command next value has been selected and is pending
+      const pendingValue = document.createElement("span");
+      pendingValue.innerText = "??? ";
+      pendingValue.classList.add("nes-text", "is-primary", "blink");
+      this.elements.composition.active.appendChild(pendingValue);
 
       if (!this.previewTrack) return;
       const [previewCmd, previewValues] = parseLine(
@@ -527,9 +476,7 @@ export class OutputRenderer {
         }
       }
 
-      const valuesToDisplay = previewValues.slice(
-        command.values.length + (isPending ? 1 : 0)
-      );
+      const valuesToDisplay = previewValues.slice(command.values.length + 1);
 
       if (valuesToDisplay.length > 0) {
         const pendingValue = document.createElement("span");
@@ -539,14 +486,12 @@ export class OutputRenderer {
       }
 
       // now at this point we need to determine whether the preview track has future values here.
-    } else if (isPending) {
+    } else {
       // we don't have a command, but it is pending, need to display
       const pendingCommand = document.createElement("span");
       pendingCommand.innerHTML = "&nbsp;&nbsp;???";
       pendingCommand.classList.add("nes-text", "is-primary", "blink");
       this.elements.composition.active.appendChild(pendingCommand);
-    } else {
-      this._hide(this.elements.composition.active);
     }
 
     if (hasPreview)
@@ -556,13 +501,9 @@ export class OutputRenderer {
           .split("\n")
           .slice(
             trackLines.length -
-              (command.cmd !== null || (command.cmd === null && isPending)
-                ? 0
-                : 1),
+              (command.cmd !== null || command.cmd === null ? 0 : 1),
             trackLines.length +
-              (command.cmd !== null || (command.cmd === null && isPending)
-                ? 2
-                : 3)
+              (command.cmd !== null || command.cmd === null ? 2 : 3)
           )
           .join("\n")
       );
@@ -570,7 +511,7 @@ export class OutputRenderer {
 
   renderState() {
     this._renderPool(this.currentPoolSize);
-    this._renderTime(this.nextSegment);
+    this._renderTime(Number(this.processor.previousTimestamp));
     this._show(this.elements.actions.insertSong);
     this._show(this.elements.actions.share);
     this._show(this.elements.actions.trade);
@@ -614,15 +555,6 @@ export class OutputRenderer {
       this.processor.getVotes(),
       this.processor.getRewardPoolSize(),
     ]).then(([votes, poolSize]) => {
-      this.isSegmentConfirmed = false;
-      // Date.now() / 1000 > this.processor.getNextSegment();
-
-      // TODO: check what happens when composition is finished
-      if (this.isSegmentConfirmed)
-        this.nextSegment =
-          this.processor.getNextSegment() +
-          Number(this.processor.segmentLength);
-
       this.currentPoolSize = poolSize;
 
       this.latestVotes = votes;
@@ -636,16 +568,6 @@ export class OutputRenderer {
       this.renderComposingScreen.bind(this),
       15000
     );
-
-    /*
-    // if (this.nextSegment - this.now) this.isRendering = false;
-    
-    this.timers.processor = setTimeout(
-      this.renderComposingScreen.bind(this),
-      this.nextSegment - this.now < 10
-        ? (this.nextSegment - this.now) * 1000
-        : 10000
-    );*/
   }
 
   renderProcessing(track, details, isOver) {
@@ -828,6 +750,7 @@ export default (root) => {
           await processor.findSongFirstBlock(config.contract.initialBlock)
         );
       } catch (e) {
+        console.error(e)
         route("menu");
       }
     });
