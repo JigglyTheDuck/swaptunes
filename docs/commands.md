@@ -6,6 +6,47 @@ Jiggly is a deterministic music composer that turns a sequence of numbers into s
 
 A composition created with Jiggly can use up to 3 distinct sound channels each capable of playing a separate tune. By default, the channels play notes one after another but they can overlap using loops.
 
+## Trade to compose
+
+Every 30 minutes, the on-chain composer generates a set of possible sound commands, up to a maximum of 16 options. Participants influence the next command by adding tokens to the liquidity pool on Uniswap by selling tokens in a registered V2 liquidity pool.
+
+Each trade is a vote, where the integer value before the decimal indicates the weight and the decimal value determines the specific command.
+
+### Live example
+
+```
+channel::
+	duty_cycle 2
+	note_type 12, 11, 2
+	note G_, 4
+	note B_, 4
+	note G_, 2
+	note B_, 4
+	note ???
+```
+
+The next command has been already selected to be a `note`. Jiggly offers the following options with their associated vote numbers:
+
+```
+x.01 -> note C_
+x.02 -> note C#
+x.03 -> note D_
+x.04 -> note D#
+x.05 -> note E_
+x.06 -> note F_
+x.07 -> note F#
+x.08 -> note G_
+x.09 -> note G#
+x.10 -> note A_
+x.11 -> note A#
+x.12 -> note B_
+```
+x is arbitrary and sets the weight of the vote.
+
+_In this example, adding 100.05 tokens to the liquidity pool casts 100 votes for the 5th sound command option - in this case, note E_ - in the current segment._
+
+Once the segment concludes the composer then offers options to set the note's length similarly.
+
 ## Jiggly sound language
 
 Jiggly uses an assembly-like syntaxed language. It operates through a series of commands, each performing specific operations related to sound generation and manipulation.
