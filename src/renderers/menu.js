@@ -25,6 +25,11 @@ const template = () => `<div class="menu stack gap-lg">
       label: "Settings",
     })}
     ${navItem({
+      to: "dao",
+      label: "DAO",
+      disabled: true
+    })}
+    ${navItem({
       to: "help",
       label: "Help",
     })}

@@ -114,3 +114,8 @@ Users can submit proposals regarding several key aspects of the platform:
 - **Free structure adjustments**: The DAO is capable of changing the 1% fee that goes to the reward pool by either halving or doubling it.
 - **Change segment length**: The initial segment length is 30 minutes. This is useful for the music composer application, however, new composers might require different values.
 - **Change minimum segment vote requirement**: Initially 5 votes are at least required to consider the segment valid. This value however can be insufficient with a larger audience.
+- **Change the decimal value**: As price fluctuations are difficult to foresee, the community has the power to change the decimal value at which the votes will be considered.
+
+### Voting limitations
+
+An address can only vote on a single proposal at a time. Votes are locked for 14 days. To initiate a proposal, the proposer must have at least 1% of the required funds.
