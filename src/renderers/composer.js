@@ -40,22 +40,18 @@ ${dialog({
 ${dialog({
   cancelLabel: "Back",
   id: "composer__share",
+  action: {
+    label: "copy",
+    id: "copy",
+  },
   content: (id) => `<div class="nes-field stack gap-md">
       <label for="${id}_input">Share this URL on your preferred platform</label>
-      <div class="inline gap-sm align-center">
         <input
           type="text"
           id="${id}_input"
           class="nes-input"
           readonly
         />
-          <button
-            type="button"
-            id="${id}_copy"
-            class="nes-btn is-primary"
-            type="button"
-          >copy</button>
-      </div>
     </div>`,
 })}
 

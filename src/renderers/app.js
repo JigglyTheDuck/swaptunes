@@ -1,5 +1,6 @@
 import { Parser } from "../modules/parser";
 import { Composer as SimpleComposer } from "../modules/simpleComposer";
+import dialog from "../components/dialog";
 import playBtn from "../components/playbtn";
 import copyBtn from "../components/copybtn";
 import { Encoder, Decoder } from "../modules/encoder";
@@ -29,25 +30,23 @@ const layout = () => `
     </menu>
   </form>
 </dialog>
-<dialog class="nes-dialog width-md" id="output__shareDialog">
-  <form method="dialog">
-    <div class="nes-field stack gap-md">
-      <label for="output__shareInput" class="text align-center">Share this URL on your preferred platform</label>
-      <div class="inline gap-sm">
-      <input
-        type="text"
-        id="output__shareInput"
-        class="nes-input"
-        readonly
-    />
-      <button id="output__shareCopy" class="nes-btn is-primary" type="button">copy</button>
-      </div>
-    </div>
-    <menu class="dialog-menu inline justify-center padding-sm gap-md align-center">
-      <button class="nes-btn">back</button>
-    </menu>
-  </form>
-</dialog>
+${dialog({
+  cancelLabel: "Back",
+  id: "app__share",
+  action: {
+    label: "copy",
+    id: "copy",
+  },
+  content: (id) => `<div class="nes-field stack gap-md">
+      <label for="${id}_input">Share this URL on your preferred platform</label>
+        <input
+          type="text"
+          id="${id}_input"
+          class="nes-input"
+          readonly
+        />
+    </div>`,
+})}
 <dialog class="nes-dialog width-md" id="output__dialog">
   <form method="dialog" id="output__dialogForm">
     <label for="output__dialogTextArea">
@@ -589,6 +588,7 @@ export class OutputRenderer {
   renderLayout(root) {
     root.innerHTML = layout();
     const _id = (id) => document.getElementById(`output__${id}`);
+    const _did = (id) => document.getElementById(id);
     this.elements = {
       failureDialog: _id("compositionFailedDialog"),
       songDialog: {
@@ -598,9 +598,9 @@ export class OutputRenderer {
         closeBtn: _id("dialogCloseBtn"),
       },
       shareDialog: {
-        root: _id("shareDialog"),
-        input: _id("shareInput"),
-        copy: _id("shareCopy"),
+        root: _did("dialog__app__share"),
+        input: _did("dialog__app__share_input"),
+        copy: _did("dialog__app__share_copy"),
       },
       actions: {
         insertSong: _id("actionInsertSong"),
@@ -750,7 +750,7 @@ export default (root) => {
           await processor.findSongFirstBlock(config.contract.initialBlock)
         );
       } catch (e) {
-        console.error(e)
+        console.error(e);
         route("menu");
       }
     });

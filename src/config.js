@@ -6,7 +6,7 @@ export default {
   priceRange: 1.005, // defaulted to 1% not sure if that's good enough though, that means to set a secondary tempo you'd need to get the price down to 0.01%
 
   contract: {
-    address: "0x5d0e98DdB425Fc9C39Ee052879166a41529bD65e",
+    address: "0xeA65243922B31399B72E212D4168F74B6616c236",
     rpcUrls: {
       DRPC: "wss://polygon.drpc.org",
       BOR: 'wss://polygon-bor-rpc.publicnode.com',
