@@ -35,15 +35,18 @@ If the composition is deemed final by the composer, a `Limit` event is also fire
 
 #### Tracking contributions
 
-Each time rewards are claimed the contract fires a `RewardClaimed` event. These events offer an inexpensive way to transparently track contribution fractions by address.
+Composition contributions are determined by the claimed rewards (all ERC20 transfers originating from the reward pool).
 
-In case an NFT is created from the final composition, its ownership can be initialized based on these parameters of these events.
+In case an NFT is created from the final composition, its ownership can be initialized based on these events.
 
 ## Trade-to-Vote
 
-The trade-to-vote mechanism translates token movements into registered Uniswap V2 liquidity pools into composer options by checking the decimal value of the trade.
+The trade-to-vote mechanism translates token movement into votes for composer options through Uniswap V2 liquidity pools.
 
-To illustrate, here is an example:
+
+### Voting Process
+
+Tokens are traded with a decimal value to specify votes:
 
 ```
 The composer has 4 options for the next segment.
@@ -106,18 +109,17 @@ The token's name is Jiggly, and its symbol is GLY.
 
 ### Token Supply and Distribution
 
-- **Maximum Total Supply**: 42 million GLY
-- **Initial Liquidity Pool (LP) Value**: 1 million GLY
-- **Beta Testers Allocation**: 1 million GLY
-- **Initial Reward Pool**: 40 million GLY
+- **Maximum Total Supply**: 42 000 000 GLY
+- **Beta Testers Allocation**: 500 000 GLY
+- **Initial Reward Pool**: 41 500 000 GLY
 
 ### Reward pool token release cycle
 
 The provisional unlocking of the reward pool looks like this:
 
-![Rewards And Fees](https://github.com/JigglyTheDuck/swaptunes/blob/master/public/fees_rewards.svg)
+![Rewards And Fees](https://github.com/JigglyTheDuck/swaptunes/blob/master/docs/fees_rewards.svg)
 
-The above chart assumes perfect behavior (every single trade is voting on the eventual winner and all rewards are claimed), in reality however, the distribution of the reward pool (the equilibrium point) will most probably take place after a few thousand segments.
+The above chart assumes perfect behavior (in each segment, the entire outstanding volume is used for voting, every single trade is voting on the eventual winner and all rewards are claimed), in reality however, the distribution of the reward pool (the equilibrium point) will take place after thousands of segments.
 
 
 ## DAO - Straight in the Contract
@@ -144,4 +146,4 @@ Users can submit proposals regarding several key aspects of the platform:
 
 ## Post launch
 
-Jiggly will eventually transform into a general market composer making it possible to compose music out of arbitrary market data. Meanwhile the smart contract is expected to evolve beyond music into other creative mediums dictated by the DAO.
+Jiggly will eventually transform into a general market composer making it possible to compose music out of arbitrary market data. Meanwhile the smart contract is expected to evolve beyond music into other creative mediums dictated by the DAO and implemented by the community.
