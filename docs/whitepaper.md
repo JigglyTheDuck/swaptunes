@@ -76,7 +76,7 @@ Result: 100 votes will be taken from the most popular choice and added to a rand
 
 At its core, Jiggly is all about rewarding honest participation. Most of the tokens can only be unlocked by participating in compositions and releasing them from the reward pool.
 
-To keep the reward pool filled up to a certain level - and to discourage multiple votes - each transaction comes with a transparent 1% fee that goes directly back to the reward pool.
+To keep the reward pool filled up to a certain level - and to discourage multiple votes - each transaction comes with a transparent 0.5% fee that goes directly back to the reward pool.
 
 ### Rewards
 
@@ -87,9 +87,9 @@ The amount of rewards depends on their previous contribution and is calculated a
 An example of how rewards work:
 
 ```
-A user casts 100 votes (tokens) for a winning option.
+A user casts 200 votes (tokens) for a winning option.
 
-At a 1% tax rate, they pay 1 token as tax.
+At a 0.5% tax rate, they pay 1 token as tax.
 
 In the next segment, they cast 1 vote (token) for any valid option.
 
@@ -110,6 +110,15 @@ The token's name is Jiggly, and its symbol is GLY.
 - **Initial Liquidity Pool (LP) Value**: 1 million GLY
 - **Beta Testers Allocation**: 1 million GLY
 - **Initial Reward Pool**: 40 million GLY
+
+### Reward pool token release cycle
+
+The provisional unlocking of the reward pool looks like this:
+
+![Rewards And Fees](https://github.com/JigglyTheDuck/swaptunes/blob/master/public/fees_rewards.svg)
+
+The above chart assumes perfect behavior (every single trade is voting on the eventual winner and all rewards are claimed), in reality however, the distribution of the reward pool (the equilibrium point) will most probably take place after a few thousand segments.
+
 
 ## DAO - Straight in the Contract
 
@@ -132,3 +141,7 @@ Users can submit proposals regarding several key aspects of the platform:
 - An address can only vote on a single proposal at a time.
 - Votes (and the tokens) are locked for 14 days.
 - To initiate a proposal, the proposer must have at least 1% of the required funds.
+
+## Post launch
+
+Jiggly will eventually transform into a general market composer making it possible to compose music out of arbitrary market data. Meanwhile the smart contract is expected to evolve beyond music into other creative mediums dictated by the DAO.

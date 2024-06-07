@@ -237,8 +237,27 @@
 			"inputs": [
 				{
 					"indexed": false,
+					"internalType": "address",
+					"name": "claimer",
+					"type": "address"
+				},
+				{
+					"indexed": false,
 					"internalType": "uint256",
-					"name": "segmentValue",
+					"name": "amount",
+					"type": "uint256"
+				}
+			],
+			"name": "RewardsClaimed",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "selectedOption",
 					"type": "uint256"
 				}
 			],
@@ -407,7 +426,7 @@
 					"type": "uint8"
 				}
 			],
-			"stateMutability": "pure",
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -566,19 +585,6 @@
 					"internalType": "uint256",
 					"name": "voteCount",
 					"type": "uint256"
-				}
-			],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "segmentLength",
-			"outputs": [
-				{
-					"internalType": "uint64",
-					"name": "",
-					"type": "uint64"
 				}
 			],
 			"stateMutability": "view",

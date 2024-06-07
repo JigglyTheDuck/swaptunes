@@ -10,6 +10,7 @@ export class ContractProcessor {
   composer;
   provider;
   previousTimestamp;
+  initialBlock;
   lastBlock;
   blockRequestLimit = config.contract.blockRequestLimit;
   latestBlockCache = {
@@ -110,11 +111,11 @@ export class ContractProcessor {
       return this.findSongFirstBlock(toBlock);
     }
 
-    const initialBlock = results[0].blockNumber
+    this.initialBlock = results[0].blockNumber
 
-    this.initializeSong(initialBlock)
+    this.initializeSong(this.initialBlock)
 
-    return Promise.resolve(initialBlock);
+    return Promise.resolve(this.initialBlock);
   }
 
   async tryToGetLogs(filter, retryCount = 0) {
@@ -166,5 +167,17 @@ export class ContractProcessor {
           .map(({ option }, index) => this.contract.optionVotes(index))
       )
     );
+  }
+
+  async findContributions(fromBlock = this.initialBlock) {
+    const toBlock = fromBlock + this.blockRequestLimit;
+    const filter = {
+      address: this.address,
+      fromBlock,
+      toBlock,
+      topics: [id("RewardsClaimed(address,uint256)")],
+    };
+
+    const results = await this.tryToGetLogs(filter);
   }
 }
