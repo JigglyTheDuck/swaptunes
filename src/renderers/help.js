@@ -13,7 +13,7 @@ const helpHomeTemplate = () => `
     })}
     ${navItem({
       to:
-        "https://github.com/bastardastronaut/swaptunes/blob/master/docs/commands.md",
+        "https://github.com/JigglyTheDuck/docs/blob/master/commands.md",
       label: "Composer",
       external: true,
     })}
@@ -23,7 +23,7 @@ const helpHomeTemplate = () => `
     })}
     ${navItem({
       to:
-        "https://github.com/bastardastronaut/swaptunes/blob/master/docs/whitepaper.md",
+        "https://github.com/JigglyTheDuck/docs/blob/master/whitepaper.md",
       label: "Whitepaper",
       external: true,
     })}
@@ -55,7 +55,7 @@ ${header({ title: "Instructions" })}
       </p>
       <p class="text">
         You can vote multiple times in one segment but only your latest one will be considered for rewards.
-        More details in the <a href="https://github.com/bastardastronaut/swaptunes/blob/master/docs/whitepaper.md" target="_blank" noreferer>whitepaper</a>.
+        More details in the <a href="https://github.com/JigglyTheDuck/docs/blob/master/whitepaper.md" target="_blank" noreferer>whitepaper</a>.
       </p>
 `;
 
