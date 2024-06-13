@@ -88,8 +88,8 @@ ${dialog({
     <button id="output__actionInsertSong" class="nes-btn hidden">add song</button>
     <button id="output__actionPlay" class="nes-btn hidden is-primary">play</button>
     <a href="https://app.uniswap.org/swap?inputCurrency=${
-      config.contract.address
-    }&outputCurrency=0xe53bF56F8E5BfC508A08cD2C375c0257044114F7" target="_blank" rel="noreferer" id="output__actionTrade" class="nes-btn is-warning hidden">trade</a>
+      config.contract.tokenAddress
+    }&outputCurrency=0x0356Ee6D5c0a53f43D1AC2022B3d5bA7acf7e697" target="_blank" rel="noreferer" id="output__actionTrade" class="nes-btn is-warning hidden">trade</a>
     <button id="output__actionCompose" class="nes-btn hidden">compose</button>
     <!--
   <button id="output__actionPrev" class="nes-btn hidden is-primary">previous</button>

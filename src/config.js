@@ -6,13 +6,15 @@ export default {
   priceRange: 1.005, // defaulted to 1% not sure if that's good enough though, that means to set a secondary tempo you'd need to get the price down to 0.01%
 
   contract: {
-    address: "0xeA65243922B31399B72E212D4168F74B6616c236",
+    tokenAddress: "0xA3da1De64E4638E9a8F788f8d76bdBD4D480e045",
+    // this is composer
+    address: "0xA3da1De64E4638E9a8F788f8d76bdBD4D480e045",
     rpcUrls: {
       DRPC: "wss://polygon.drpc.org",
       BOR: 'wss://polygon-bor-rpc.publicnode.com',
       INFURA: "wss://polygon-mainnet.infura.io/ws/v3/40db5aad07504ce3b2cb913c353c1f6a",
     },
-    initialBlock: 57829303,
+    initialBlock: 58083053,
     blockRequestLimit: 10000
   },
   market: {

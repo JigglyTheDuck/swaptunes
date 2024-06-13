@@ -4,7 +4,7 @@ _Introducing a unique trade-to-vote system for a collaborative trading experienc
 
 ## Introduction
 
-Jiggly is a standard ERC20 token with a built-in feature to support a trade-to-vote mechanism, powered by Uniswap V2 liquidity pools.
+Jiggly is a standard ERC20 token with a built-in support for a unique trade-to-vote mechanism, powered by Uniswap V2 liquidity pools.
 
 Jiggly is fully on-chain, and its supporting web application does not rely on any third-party service (apart from a customizable web3 RPC endpoint, of course).
 
@@ -21,11 +21,11 @@ getNextOptions(): number [0-16] // returns the number of possible options
 applyOption(optionIndex: number): boolean // updates the state and returns whether the composition is final
 ```
 
-The `applyOption` function should be restricted so that it can be called only from the Jiggly ERC20 contract.
+The `applyOption` function should be restricted so that it can be called only from the Jiggly TokenComposer contract.
 
 ### Segments
 
-Segments are time-limited (initially 30 minutes) and require a certain number of votes to pass. This way, if there is low trading volume, segments can "pile up," and once volume picks up again, segment turnover increases.
+Segments are time-limited (initially 30 minutes) and require a certain number of votes to pass. 
 
 ### Immortalizing Segments
 
@@ -35,7 +35,7 @@ If the composition is deemed final by the composer, a `Limit` event is also fire
 
 #### Tracking contributions
 
-Composition contributions are determined by the claimed rewards (all ERC20 transfers originating from the reward pool).
+Composition contributions are determined by the claimed rewards (all token transfers originating from the reward pool).
 
 In case an NFT is created from the final composition, its ownership can be initialized based on these events.
 
@@ -73,7 +73,23 @@ The user sends 100 tokens to another user (not a registered liquidity pool).
 Result: 100 votes will be taken from the most popular choice and added to a random one.
 ```
 
-// TODO: illustrate with picture
+### Trade types
+
+Jiggly distinguishes 3 different types of trades by composition behaviour and reward fee collection.
+
+![Trade types](https://github.com/JigglyTheDuck/swaptunes/blob/master/docs/trades.svg)
+
+#### Meta trades
+
+Claiming rewards and voting for DAO proposals are not subject to reward fee collection nor do they trigger composition.
+
+#### Valid vote trades
+
+Trades that target a registered liquidity pool and the decimal value of the amount is a valid composer option.
+
+#### Normal trades
+
+Every other trade randomizes the options by the method outlined above.
 
 ## The Reward Pool
 
@@ -101,7 +117,7 @@ In return, they get 5 tokens as rewards.
 
 #### Casting Multiple Votes
 
-Users are allowed to vote multiple times, and those votes will be counted, but only their latest one is considered for rewards.
+Users are allowed to vote multiple times within a segment, and those votes will be counted, but only their latest one is considered for rewards.
 
 ## Tokenomics
 
@@ -110,8 +126,8 @@ The token's name is Jiggly, and its symbol is GLY.
 ### Token Supply and Distribution
 
 - **Maximum Total Supply**: 42 000 000 GLY
-- **Beta Testers Allocation**: 500 000 GLY
-- **Initial Reward Pool**: 41 500 000 GLY
+- **Beta Testers Allocation**: 1 000 000 GLY
+- **Initial reward pool**: 41 000 000 GLY
 
 ### Reward pool token release cycle
 
@@ -128,7 +144,22 @@ Jiggly is not perfect. It is ready to evolve exactly how the community wants it 
 
 ### Proposals for Platform Evolution
 
-Users can submit proposals regarding several key aspects of the platform:
+Jiggly is designed to be modular and fully customizable by the community.
+
+Users can submit proposals regarding several key aspects of the platform.
+
+The proposals are divided into 2 categories.
+
+#### Major upgrades
+
+Major upgrades take place on the token contract level and require support of 25% of the total supply to pass.
+
+- **Change of DAO contract**: The DAO has the ability to replace itself in case improvements are found in the future. Changing the DAO takes effect immediately 
+- **Change of Jiggly TokenComposer contract**: Upgrades to the main token composer contract.
+
+#### Minor updates
+
+These are smaller upgrades to the composer contract that require 10% of the total supply to pass.
 
 - **Composer Upgrades**: Proposals can be made to upgrade or change the on-chain composer mechanism, allowing the platform to evolve in its ability to create music or other forms of creative media. Changing the composer takes effect once the current composition is finished.
 - **New Liquidity Pool Contracts**: To ensure that the platform’s tokens are not tied to a single secondary currency, proposals can be made to add new liquidity pools with different cryptocurrencies.
@@ -136,13 +167,23 @@ Users can submit proposals regarding several key aspects of the platform:
 - **Fee Structure Adjustments**: The DAO can change the 1% fee that goes to the reward pool by either halving or doubling it.
 - **Change Segment Length**: The initial segment length is 30 minutes. This is useful for the music composer application; however, new composers might require different values.
 - **Change Minimum Segment Vote Requirement**: Initially, 5 votes are at least required to consider the segment valid. This value, however, can be insufficient with a larger audience.
-- **Change the Decimal Value**: As price fluctuations are difficult to foresee, the community has the power to change the decimal value at which the votes will be considered.
+- **Change the Decimal Value**: As price fluctuations are difficult to foresee, the community has the power to change the decimal value at which the votes will be considered. This is similar to stock splitting.
 
 ### Voting Limitations
 
 - An address can only vote on a single proposal at a time.
 - Votes (and the tokens) are locked for 14 days.
 - To initiate a proposal, the proposer must have at least 1% of the required funds.
+- Withdrawals are subject to reward fee.
+
+## Contracts
+
+Jiggly runs on the BASE network and the following contracts are deployed as part of the ecosystem:
+
+ - GLY token: 
+ - DAO: 
+ - Token Composer: 
+ - Music Composer: 
 
 ## Post launch
 
