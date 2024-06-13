@@ -76,6 +76,10 @@ export class ContractProcessor {
     return this.contract.segmentPoolSize();
   }
 
+  async getSegmentVoteCount() {
+    return this.contract.segmentVoteCount();
+  }
+
   processEvent(event) {
     this.composer.applyOption(parseInt(dataSlice(event.data, 31, 32), 16));
     if (this.composer.getNextOptions().length === 1) {

@@ -110,6 +110,7 @@ export class OutputRenderer {
   curretPoolSize = 0;
   latestVotes;
   isRendering;
+  voteCount = 0;
   processor;
   root;
   showAllOptions = true;
@@ -137,7 +138,7 @@ export class OutputRenderer {
       copy: null,
     },
     actions: {
-      insertSong: null,
+      // insertSong: null,
       play: null,
       share: null,
       trade: null,
@@ -206,7 +207,7 @@ export class OutputRenderer {
       return;
     }
 
-    this._render(this.elements.time, formatDate(timestamp));
+    this._render(this.elements.time, `${formatDate(timestamp)} (${this.voteCount} votes)`);
   }
 
   resetState() {
@@ -511,7 +512,7 @@ export class OutputRenderer {
   renderState() {
     this._renderPool(this.currentPoolSize);
     this._renderTime(Number(this.processor.previousTimestamp));
-    this._show(this.elements.actions.insertSong);
+    // this._show(this.elements.actions.insertSong);
     this._show(this.elements.actions.share);
     this._show(this.elements.actions.trade);
     this._show(this.elements.actions.compose);
@@ -553,8 +554,10 @@ export class OutputRenderer {
     Promise.all([
       this.processor.getVotes(),
       this.processor.getRewardPoolSize(),
-    ]).then(([votes, poolSize]) => {
+      this.processor.getSegmentVoteCount(),
+    ]).then(([votes, poolSize, voteCount]) => {
       this.currentPoolSize = poolSize;
+      this.voteCount = voteCount;
 
       this.latestVotes = votes;
 
@@ -603,7 +606,7 @@ export class OutputRenderer {
         copy: _did("dialog__app__share_copy"),
       },
       actions: {
-        insertSong: _id("actionInsertSong"),
+        // insertSong: _id("actionInsertSong"),
         play: _id("actionPlay"),
         share: _id("actionShare"),
         trade: _id("actionTrade"),
@@ -632,7 +635,7 @@ export class OutputRenderer {
       () => root.scrollIntoView({ block: "center", behavior: "smooth" }),
       500
     );
-    this.elements.actions.insertSong.onclick = this.onInsertClick.bind(this);
+    // this.elements.actions.insertSong.onclick = this.onInsertClick.bind(this);
     this.elements.actions.share.onclick = this.onShareClick.bind(this);
     copyBtn(this.elements.shareDialog.copy, () => window.location.href);
     this.elements.actions.compose.onclick = () =>
