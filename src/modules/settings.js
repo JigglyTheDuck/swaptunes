@@ -22,7 +22,7 @@ const settings = {
   darkMode: "auto",
   operationMode: "market",
   defaultScale: 0,
-  rpcUrl: "DRPC",
+  rpcUrl: Object.keys(config.contract.rpcUrls)[0],
 };
 
 const watchers = settingKeys.reduce(
