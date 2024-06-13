@@ -86,7 +86,7 @@ export class ContractProcessor {
   }
 
   async initializeSong(blockNumber) {
-    this.segmentLength = 1800n;
+    this.segmentLength = 18000n;
     this.previousTimestamp = BigInt(
       (await this.provider.getBlock(blockNumber)).timestamp
     );

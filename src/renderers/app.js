@@ -85,7 +85,7 @@ ${dialog({
   <!--<p class="width-sm">put song symbols here, and animate them when playing, actually you can even translate the text into music sheets https://codepen.io/gvissing/pen/BKmmpJ </p>-->
 </div>
 <div class="inline justify-center gap-sm wrap">
-    <button id="output__actionInsertSong" class="nes-btn hidden">add song</button>
+    <!--<button id="output__actionInsertSong" class="nes-btn hidden">add song</button>-->
     <button id="output__actionPlay" class="nes-btn hidden is-primary">play</button>
     <a href="https://app.uniswap.org/swap?inputCurrency=${
       config.contract.tokenAddress
@@ -265,7 +265,7 @@ export class OutputRenderer {
   _renderPool(poolSize) {
     this._render(
       this.elements.rewardPool,
-      `Reward pool: ${poolSize / 1000000000n} GLY`
+      `Reward pool: ${10n * poolSize / 1000000000n} GLY`
     );
   }
 
