@@ -125,8 +125,10 @@ The token's name is Jiggly, and its symbol is GLY.
 
 ### Token Supply and Distribution
 
+The token distribution is fully transparent.
+
 - **Maximum Total Supply**: 42 000 000 GLY
-- **Beta Testers Allocation**: 1 000 000 GLY
+- **Beta LP**: 1 000 000 GLY
 - **Initial reward pool**: 41 000 000 GLY
 
 ### Reward pool token release cycle
@@ -184,6 +186,10 @@ Jiggly runs on the BASE network and the following contracts are deployed as part
  - DAO: 
  - Token Composer: 
  - Music Composer: 
+
+## Questions & concerns
+
+Reach out on [Reddit](https://www.reddit.com/r/JigglyTheDuck) or email [theduck@jiggly.app](mailto:theduck@jiggly.app).
 
 ## Post launch
 
