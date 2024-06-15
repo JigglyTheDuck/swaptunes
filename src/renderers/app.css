@@ -1,5 +1,8 @@
+
 @media screen and (max-width: 48rem) {
   .label-container {
-    justify-content: space-between;
+    margin-top: 1.5rem;
+    justify-content: flex-end;
+    flex-direction: row-reverse;
   }
 }

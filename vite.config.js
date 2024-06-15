@@ -27,6 +27,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    /*
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
@@ -48,6 +49,6 @@ export default defineConfig({
           },
         ],
       },
-    }),
+    }),*/
   ],
 });
