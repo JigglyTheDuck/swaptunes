@@ -10,6 +10,7 @@ export class ContractProcessor {
   composer;
   provider;
   previousTimestamp;
+  lastSegmentOption;
   initialBlock;
   lastBlock;
   blockRequestLimit = config.contract.blockRequestLimit;
@@ -81,11 +82,14 @@ export class ContractProcessor {
   }
 
   processEvent(event) {
-    this.composer.applyOption(parseInt(dataSlice(event.data, 31, 32), 16));
+    const option = parseInt(dataSlice(event.data, 31, 32), 16)
+    this.composer.applyOption(option);
+
     if (this.composer.getNextOptions().length === 1) {
       // automatically move on from 0 option actions
       this.composer.applyOption(0);
     }
+    this.lastSegmentOption = option;
     this.previousTimestamp += this.segmentLength;
   }
 
@@ -94,6 +98,10 @@ export class ContractProcessor {
     this.previousTimestamp = BigInt(
       (await this.provider.getBlock(blockNumber)).timestamp
     );
+  }
+
+  fetchLatestContribution(address) {
+    return this.contract.contributions(address);
   }
 
   // finds the first block of the previous new song

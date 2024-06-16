@@ -47,6 +47,23 @@ ${dialog({
         />
     </div>`,
 })}
+${dialog({
+  cancelLabel: "Back",
+  id: "app__contributions",
+  action: {
+    label: "load",
+    id: "fetch",
+  },
+  content: (id) => `<div class="nes-field stack gap-md">
+      <label for="${id}_input">Check contributions for an address:</label>
+        <input
+          type="text"
+          id="${id}_input"
+          class="nes-input"
+        />
+        <div id="${id}_results" class="nes-text is-primary"></div>
+    </div>`,
+})}
 <dialog class="nes-dialog width-md" id="output__dialog">
   <form method="dialog" id="output__dialogForm">
     <label for="output__dialogTextArea">
@@ -86,6 +103,7 @@ ${dialog({
 </div>
 <div class="inline justify-center gap-sm wrap">
     <!--<button id="output__actionInsertSong" class="nes-btn hidden">add song</button>-->
+    <button id="output__actionRewards" class="nes-btn hidden">rewards</button>
     <button id="output__actionPlay" class="nes-btn hidden is-primary">play</button>
     <a href="https://app.uniswap.org/swap?inputCurrency=${
       config.contract.tokenAddress
@@ -137,12 +155,19 @@ export class OutputRenderer {
       input: null,
       copy: null,
     },
+    contributionsDialog: {
+      root: null,
+      input: null,
+      results: null,
+      fetch: null,
+    },
     actions: {
       // insertSong: null,
       play: null,
       share: null,
       trade: null,
       compose: null,
+      rewards: null,
     },
     composition: {
       active: null,
@@ -207,7 +232,10 @@ export class OutputRenderer {
       return;
     }
 
-    this._render(this.elements.time, `${formatDate(timestamp)} (${this.voteCount} votes)`);
+    this._render(
+      this.elements.time,
+      `${formatDate(timestamp)} (${this.voteCount} votes)`
+    );
   }
 
   resetState() {
@@ -266,7 +294,7 @@ export class OutputRenderer {
   _renderPool(poolSize) {
     this._render(
       this.elements.rewardPool,
-      `Reward pool: ${10n * poolSize / 1000000000n} GLY`
+      `Reward pool: ${(10n * poolSize) / 1000000000n} GLY`
     );
   }
 
@@ -516,6 +544,7 @@ export class OutputRenderer {
     this._show(this.elements.actions.share);
     this._show(this.elements.actions.trade);
     this._show(this.elements.actions.compose);
+    this._show(this.elements.actions.rewards);
     this._show(this.elements.actions.play);
     this.renderProgress();
 
@@ -605,12 +634,19 @@ export class OutputRenderer {
         input: _did("dialog__app__share_input"),
         copy: _did("dialog__app__share_copy"),
       },
+      contributionsDialog: {
+        root: _did("dialog__app__contributions"),
+        input: _did("dialog__app__contributions_input"),
+        results: _did("dialog__app__contributions_results"),
+        fetch: _did("dialog__app__contributions_fetch"),
+      },
       actions: {
         // insertSong: _id("actionInsertSong"),
         play: _id("actionPlay"),
         share: _id("actionShare"),
         trade: _id("actionTrade"),
         compose: _id("actionCompose"),
+        rewards: _id("actionRewards"),
       },
       composition: {
         active: _id("compositionActive"),
@@ -637,6 +673,7 @@ export class OutputRenderer {
     );
     // this.elements.actions.insertSong.onclick = this.onInsertClick.bind(this);
     this.elements.actions.share.onclick = this.onShareClick.bind(this);
+    this.elements.actions.rewards.onclick = this.onRewardsClick.bind(this);
     copyBtn(this.elements.shareDialog.copy, () => window.location.href);
     this.elements.actions.compose.onclick = () =>
       new Encoder()
@@ -651,6 +688,39 @@ export class OutputRenderer {
       this.elements.actions.play,
       () => this.previewTrack || this.processor.composer.renderTrack()
     );
+
+    this.elements.contributionsDialog.fetch.onclick =
+      this.onContributionsClick.bind(this);
+  }
+
+  async onContributionsClick() {
+    try {
+      const results = await this.processor.fetchLatestContribution(
+        this.elements.contributionsDialog.input.value
+      );
+
+      let resultsText = `no contribution or rewards already claimed`;
+
+      if (results.value === 0n) {
+      } else if (results.lastTimestamp === this.processor.previousTimestamp) {
+        resultsText = `Active vote for option (${results.optionIndex + 1n})`;
+      } else if (
+        results.lastTimestamp <
+        this.processor.previousTimestamp - this.processor.segmentLength
+      ) {
+        resultsText = `Rewards forfeited`;
+      } else if (results.optionIndex === this.processor.lastSegmentOption) {
+        resultsText = `Pending unclaimed rewards`;
+      } else {
+        resultsText = `no rewards to claim`;
+      }
+      this._render(this.elements.contributionsDialog.results, resultsText);
+    } catch (e) {
+      this._render(
+        this.elements.contributionsDialog.results,
+        "no contributions"
+      );
+    }
   }
 
   async updateQuery() {
@@ -701,6 +771,11 @@ export class OutputRenderer {
 
   onInsertClick() {
     this.elements.songDialog.root.showModal();
+  }
+
+  onRewardsClick() {
+    this.elements.contributionsDialog.input.value = "";
+    this.elements.contributionsDialog.root.showModal();
   }
 
   onShareClick() {
