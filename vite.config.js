@@ -6,7 +6,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, 'index.html'),
+        main: path.resolve(__dirname, "index.html"),
         unreferenced: path.resolve(__dirname, "src/main.js"),
       },
       output: {
@@ -27,20 +27,20 @@ export default defineConfig({
     },
   },
   plugins: [
-    /*
     VitePWA({
       registerType: "autoUpdate",
+      selfDestroying: true,
       manifest: {
         name: "Jiggly",
         short_name: "Jiggly",
         description: "Jiggly music composer",
-        theme_color: '#108de0',
+        theme_color: "#108de0",
         icons: [
           {
             src: "/favicon-md.png",
             sizes: "192x192",
             type: "image/png",
-            purpose: "maskable"
+            purpose: "maskable",
           },
           {
             src: "/favicon-lg.png",
@@ -49,6 +49,6 @@ export default defineConfig({
           },
         ],
       },
-    }),*/
+    }),
   ],
 });
