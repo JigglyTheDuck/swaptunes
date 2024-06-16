@@ -36,7 +36,7 @@ const template = () => `<div class="menu stack gap-lg">
     <button class="hidden"></button>
 </form>
 <footer class="inline justify-end">
-        <button disabled id="install-btn" class="nes-btn is-success is-disabled">Install</button>
+        <button id="install-btn" class="nes-btn is-success is-disabled">Install</button>
 </footer>
 </div>
 `;

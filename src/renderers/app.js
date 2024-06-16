@@ -1,3 +1,4 @@
+import { formatUnits } from "ethers";
 import { Parser } from "../modules/parser";
 import { Composer as SimpleComposer } from "../modules/simpleComposer";
 import dialog from "../components/dialog";
@@ -61,7 +62,7 @@ ${dialog({
           id="${id}_input"
           class="nes-input"
         />
-        <div id="${id}_results" class="nes-text is-primary"></div>
+        <div id="${id}_results" class="nes-text is-primary text sm"></div>
     </div>`,
 })}
 <dialog class="nes-dialog width-md" id="output__dialog">
@@ -694,23 +695,29 @@ export class OutputRenderer {
   }
 
   async onContributionsClick() {
+    this.elements.contributionsDialog.fetch.classList.add("is-disabled");
     try {
       const results = await this.processor.fetchLatestContribution(
         this.elements.contributionsDialog.input.value
       );
 
       let resultsText = `no contribution or rewards already claimed`;
+      const gwei = `${(formatUnits(results.value, "gwei") / 4).toFixed(2)} GLY`;
 
       if (results.value === 0n) {
       } else if (results.lastTimestamp === this.processor.previousTimestamp) {
-        resultsText = `Active vote for option (${results.optionIndex + 1n})`;
+        resultsText = `Active vote for option ${
+          results.optionIndex + 1n
+        }. (Potential rewards: ${gwei})`;
       } else if (
         results.lastTimestamp <
         this.processor.previousTimestamp - this.processor.segmentLength
       ) {
         resultsText = `Rewards forfeited`;
-      } else if (results.optionIndex === this.processor.lastSegmentOption) {
-        resultsText = `Pending unclaimed rewards`;
+      } else if (
+        Number(results.optionIndex) === this.processor.lastSegmentOption
+      ) {
+        resultsText = `Pending unclaimed rewards (Rewards: ${gwei})`;
       } else {
         resultsText = `no rewards to claim`;
       }
@@ -721,6 +728,7 @@ export class OutputRenderer {
         "no contributions"
       );
     }
+    this.elements.contributionsDialog.fetch.classList.remove("is-disabled");
   }
 
   async updateQuery() {
@@ -775,6 +783,7 @@ export class OutputRenderer {
 
   onRewardsClick() {
     this.elements.contributionsDialog.input.value = "";
+    this._render(this.elements.contributionsDialog.results, "");
     this.elements.contributionsDialog.root.showModal();
   }
 
