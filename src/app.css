@@ -69,6 +69,13 @@ body {
   background: var(--color-overlay);
 }
 
+.underlay { 
+  position: absolute;
+  inset: 0px;
+  z-index: -1;
+  background: var(--color-overlay);
+}
+
 .sticky-top {
   position: sticky;
   top: 0;

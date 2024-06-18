@@ -6,14 +6,14 @@ export default {
   priceRange: 1.005, // defaulted to 1% not sure if that's good enough though, that means to set a secondary tempo you'd need to get the price down to 0.01%
 
   contract: {
-    tokenAddress: "0x7A8Fe8fee5dE707aa64A0Fe5c945F9c664DF11B3",
-    address: "0x0C32122cb8fFB378297d6B560DD7bb100121419e", // composer
+    tokenAddress: "0xF1a92A5Cdfa5D68357df8cD19793396D0c703FE3",
+    address: "0x65CE099cB52dbf435B12b079d29AD248C5B580Aa", // composer
     rpcUrls: {
       PUBLIC: "wss://base-rpc.publicnode.com",
       TENDERLY: 'wss://base.gateway.tenderly.co',
       LLAMA: "https://base.llamarpc.com",
     },
-    initialBlock: 15745505,
+    initialBlock: 15960991,
     blockRequestLimit: 10000
   },
   market: {

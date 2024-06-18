@@ -160,9 +160,21 @@ export const _props = (el, { id, innerText, innerHTML } = {}) => {
 
   return el;
 };
-export const c = (elType, props) => _props(document.createElement(elType), props);
+export const c = (elType, props) =>
+  _props(document.createElement(elType), props);
 export const e = (id, props) => _props(document.getElementById(id), props);
 export const now = () => Math.floor(Date.now() / 1000);
 export const getNoteLength = (tempo, noteLength) =>
   (1000 * 867 * tempo * noteLength) / 0x100000;
 export const getSongLength = (tempo, seek) => getNoteLength(tempo, seek);
+export const prepend = (n) => (n < 10 ? `0${n}` : n);
+
+export const formatSeconds = (seconds) => {
+  const hours = Math.floor(seconds / 3600);
+  seconds -= hours * 3600;
+  const minutes = Math.floor(seconds / 60);
+  seconds -= minutes * 60;
+
+  if (hours > 0) return `${hours}h ${minutes}m`;
+  return `${minutes}m ${seconds}s`;
+};

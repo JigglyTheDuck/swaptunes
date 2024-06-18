@@ -186,6 +186,10 @@
   text-align: right;
 }
 
+.width-auto {
+  flex-basis: 0;
+}
+
 .width-xs {
   width: 100%;
   max-width: var(--size-width-xs);

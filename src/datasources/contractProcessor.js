@@ -55,6 +55,8 @@ export class ContractProcessor {
     for (const event of events) {
       this.processEvent(event);
 
+      await new Promise((r) => setTimeout(r, 50));
+
       if (this.composer.isFinished) {
         notify(true);
         return;
@@ -63,8 +65,6 @@ export class ContractProcessor {
     }
 
     notify(false);
-
-    await new Promise((r) => setTimeout(r), 100);
 
     return this.process(
       listener,
@@ -82,7 +82,7 @@ export class ContractProcessor {
   }
 
   processEvent(event) {
-    const option = parseInt(dataSlice(event.data, 31, 32), 16)
+    const option = parseInt(dataSlice(event.data, 31, 32), 16);
     this.composer.applyOption(option);
 
     if (this.composer.getNextOptions().length === 1) {
@@ -90,11 +90,12 @@ export class ContractProcessor {
       this.composer.applyOption(0);
     }
     this.lastSegmentOption = option;
-    this.previousTimestamp += this.segmentLength;
+    if (event > config.contract.initialBlock)
+      this.previousTimestamp += this.segmentLength;
   }
 
   async initializeSong(blockNumber) {
-    this.segmentLength = 18000n;
+    this.segmentLength = 28800n;
     this.previousTimestamp = BigInt(
       (await this.provider.getBlock(blockNumber)).timestamp
     );
@@ -123,9 +124,9 @@ export class ContractProcessor {
       return this.findSongFirstBlock(toBlock);
     }
 
-    this.initialBlock = results[0].blockNumber
+    this.initialBlock = results[0].blockNumber;
 
-    this.initializeSong(this.initialBlock)
+    this.initializeSong(this.initialBlock);
 
     return Promise.resolve(this.initialBlock);
   }
