@@ -14,6 +14,7 @@ export default {
       LLAMA: "https://base.llamarpc.com",
     },
     initialBlock: parseInt(import.meta.env.VITE_INITIAL_BLOCK),
+    segmentLength: BigInt(parseInt(import.meta.env.VITE_SEGMENT_LENGTH)),
     blockRequestLimit: parseInt(import.meta.env.VITE_BLOCK_REQUEST_LIMIT)
   },
   market: {
