@@ -38,6 +38,11 @@ const darkStyles = `
   border-image-outset: 2;
   box-shadow: 0 0 0 8px #212529;
 }
+
+.nes-progress {
+  background: var(--bg-secondary);
+}
+
 .nes-container {
   position: relative;
   margin: 4px;

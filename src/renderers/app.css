@@ -2,10 +2,18 @@
   margin-left: -8px;
 }
 
+.gly-options .bars {
+  gap: 0.5rem;
+}
+
 @media screen and (max-width: 48rem) {
   .label-container {
     margin-top: 1.5rem;
     justify-content: flex-end;
     flex-direction: row-reverse;
+  }
+
+  .gly-options .option {
+    align-items: flex-start;
   }
 }

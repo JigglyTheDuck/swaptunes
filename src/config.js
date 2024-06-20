@@ -6,15 +6,15 @@ export default {
   priceRange: 1.005, // defaulted to 1% not sure if that's good enough though, that means to set a secondary tempo you'd need to get the price down to 0.01%
 
   contract: {
-    tokenAddress: "0xF1a92A5Cdfa5D68357df8cD19793396D0c703FE3",
-    address: "0x65CE099cB52dbf435B12b079d29AD248C5B580Aa", // composer
+    tokenAddress: import.meta.env.VITE_TOKEN_ADDRESS,
+    address: import.meta.env.VITE_COMPOSER_ADDRESS, // composer
     rpcUrls: {
       PUBLIC: "wss://base-rpc.publicnode.com",
       TENDERLY: 'wss://base.gateway.tenderly.co',
       LLAMA: "https://base.llamarpc.com",
     },
-    initialBlock: 15960991,
-    blockRequestLimit: 10000
+    initialBlock: parseInt(import.meta.env.VITE_INITIAL_BLOCK),
+    blockRequestLimit: parseInt(import.meta.env.VITE_BLOCK_REQUEST_LIMIT)
   },
   market: {
     songLengthOptions: [50, 100, 150, 200],

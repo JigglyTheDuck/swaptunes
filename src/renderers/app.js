@@ -427,8 +427,12 @@ export class OutputRenderer {
       option.style.zIndex = 1;
 
       option.classList.add(
+        "option",
         "nes-border",
-        "stack",
+        "inline",
+        "sm",
+        "justify-space-between",
+        "align-center",
         "gap-xs",
         "relative",
         "bg-secondary",
@@ -459,12 +463,6 @@ export class OutputRenderer {
       )})`;
 
       let variant = "background-disabled";
-
-      if (i === 0) {
-        if (previewOptionIndex === i) {
-          variant = "success";
-        }
-      }
 
       background.style.background = getComputedStyle(
         document.documentElement
