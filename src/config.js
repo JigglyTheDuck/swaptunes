@@ -1,23 +1,26 @@
 // TODO: we can get clever here, just use the 5m one
-// 
+//
 export default {
   confirmationDelay: 360, // amount of seconds to wait until confirmation for recent price movements.
   sampleRate: 300, // in seconds
   priceRange: 1.005, // defaulted to 1% not sure if that's good enough though, that means to set a secondary tempo you'd need to get the price down to 0.01%
 
+  defaultSong: import.meta.env.VITE_DEFAULT_SONG,
   contract: {
     tokenAddress: import.meta.env.VITE_TOKEN_ADDRESS,
     wrappedTokenAddress: import.meta.env.VITE_WRAPPED_TOKEN_ADDRESS,
     address: import.meta.env.VITE_COMPOSER_ADDRESS, // composer
     rpcUrls: {
       PUBLIC: "wss://base-rpc.publicnode.com",
-      TENDERLY: 'wss://base.gateway.tenderly.co',
+      TENDERLY: "wss://base.gateway.tenderly.co",
       LLAMA: "https://base.llamarpc.com",
     },
     initialBlock: parseInt(import.meta.env.VITE_INITIAL_BLOCK),
     segmentLength: BigInt(parseInt(import.meta.env.VITE_SEGMENT_LENGTH)),
     blockRequestLimit: parseInt(import.meta.env.VITE_BLOCK_REQUEST_LIMIT),
-    initialTimestamp: BigInt(parseInt(import.meta.env.VITE_INITIAL_TIMESTAMP || 0))
+    initialTimestamp: BigInt(
+      parseInt(import.meta.env.VITE_INITIAL_TIMESTAMP || 0)
+    ),
   },
   market: {
     songLengthOptions: [50, 100, 150, 200],
@@ -27,8 +30,8 @@ export default {
       sampleRates: [1800, 3600, 86400],
       indices: [
         {
-          ticker: 'ETH-USD',
-          name: 'Ether',
+          ticker: "ETH-USD",
+          name: "Ether",
         },
         {
           ticker: "TSLA",

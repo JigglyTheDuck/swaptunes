@@ -890,7 +890,7 @@ export default (root) => {
 
   let renderer;
   new Decoder()
-    .decode(new URLSearchParams(window.location.search).get("previewTrack"))
+    .decode(new URLSearchParams(window.location.search).get("previewTrack") || config.defaultSong)
     .then((previewTrack) => {
       renderer = new OutputRenderer(root, processor, previewTrack);
     })
