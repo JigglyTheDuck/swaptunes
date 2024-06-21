@@ -7,6 +7,7 @@ export default {
 
   contract: {
     tokenAddress: import.meta.env.VITE_TOKEN_ADDRESS,
+    wrappedTokenAddress: import.meta.env.VITE_WRAPPED_TOKEN_ADDRESS,
     address: import.meta.env.VITE_COMPOSER_ADDRESS, // composer
     rpcUrls: {
       PUBLIC: "wss://base-rpc.publicnode.com",
