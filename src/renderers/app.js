@@ -771,7 +771,7 @@ export class OutputRenderer {
       } else if (
         Number(results.optionIndex) === this.processor.lastSegmentOption
       ) {
-        resultsText = `Pending unclaimed rewards for ${gwei} votes.`;
+        resultsText = `Eligible for rewards.`;
       } else {
         resultsText = `no rewards to claim`;
       }
