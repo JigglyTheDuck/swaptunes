@@ -244,10 +244,7 @@ export class OutputRenderer {
       return;
     }
 
-    this._render(
-      this.elements.time,
-      `Pending ${this.voteCount}/10 votes`
-    );
+    this._render(this.elements.time, `Pending ${this.voteCount}/10 votes`);
   }
 
   resetState() {
@@ -757,15 +754,13 @@ export class OutputRenderer {
       );
 
       let resultsText = `no contribution or rewards already claimed`;
-      const gwei = `${(formatUnits(results.value, "gwei") / 10).toFixed(
-        2
-      )} GLY`;
+      const gwei = `${formatUnits(results.value, "gwei").toFixed(2)} GLY`;
 
       if (results.value === 0n) {
       } else if (results.lastTimestamp === this.processor.previousTimestamp) {
         resultsText = `Active vote for option ${
           results.optionIndex + 1n
-        }. (Potential rewards: ${gwei})`;
+        }. (${gwei} votes)`;
       } else if (
         results.lastTimestamp <
         this.processor.previousTimestamp - this.processor.segmentLength
@@ -774,7 +769,7 @@ export class OutputRenderer {
       } else if (
         Number(results.optionIndex) === this.processor.lastSegmentOption
       ) {
-        resultsText = `Pending unclaimed rewards (Rewards: ${gwei})`;
+        resultsText = `Pending unclaimed rewards for ${gwei} votes.`;
       } else {
         resultsText = `no rewards to claim`;
       }
@@ -814,7 +809,7 @@ export class OutputRenderer {
   clearPreviewTrack() {
     this.previewTrack = null;
     this.elements.failureDialog.showModal();
-    this.updateQuery().then(this.renderState.bind(this))
+    this.updateQuery().then(this.renderState.bind(this));
   }
 
   setPreviewTrack(track) {

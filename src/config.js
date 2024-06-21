@@ -15,7 +15,8 @@ export default {
     },
     initialBlock: parseInt(import.meta.env.VITE_INITIAL_BLOCK),
     segmentLength: BigInt(parseInt(import.meta.env.VITE_SEGMENT_LENGTH)),
-    blockRequestLimit: parseInt(import.meta.env.VITE_BLOCK_REQUEST_LIMIT)
+    blockRequestLimit: parseInt(import.meta.env.VITE_BLOCK_REQUEST_LIMIT),
+    initialTimestamp: BigInt(parseInt(import.meta.env.VITE_INITIAL_TIMESTAMP || 0))
   },
   market: {
     songLengthOptions: [50, 100, 150, 200],
