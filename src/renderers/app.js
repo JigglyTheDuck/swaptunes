@@ -754,7 +754,7 @@ export class OutputRenderer {
       );
 
       let resultsText = `no contribution or rewards already claimed`;
-      const gwei = `${formatUnits(results.value, "gwei").toFixed(2)} GLY`;
+      const gwei = `${parseFloat(formatUnits(results.value, "gwei")).toFixed(2)} GLY`;
 
       if (results.value === 0n) {
       } else if (results.lastTimestamp === this.processor.previousTimestamp) {

@@ -90,7 +90,7 @@ export class ContractProcessor {
       this.composer.applyOption(0);
     }
     this.lastSegmentOption = option;
-    if (event > config.contract.initialBlock)
+    if (event.blockNumber > config.contract.initialBlock)
       this.previousTimestamp += this.segmentLength;
   }
 
