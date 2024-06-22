@@ -476,7 +476,9 @@ export class OutputRenderer {
       optionValue.classList.add("text", "sm");
       optionName.innerText = optionsAndVotes[i].option;
       const percent = `${(optionsAndVotes[i].ratio * 100).toFixed(2)}%`;
-      optionValue.innerText = `${percent} (${formatNum(optionsAndVotes[i].votes)})`;
+      optionValue.innerText = `${percent} (${formatNum(
+        optionsAndVotes[i].votes
+      )})`;
 
       let variant = "background-disabled";
 
@@ -651,16 +653,21 @@ export class OutputRenderer {
       this.processor.getRewardPoolSize(),
       this.processor.getSegmentVoteCount(),
       this.processor.getCurrentPrice(),
-    ]).then(([votes, poolSize, voteCount, price]) => {
-      this.currentPoolSize = poolSize;
-      this.voteCount = voteCount;
-      this.latestVotes = votes;
-      this.latestPrice = price;
+    ])
+      .then(([votes, poolSize, voteCount, price]) => {
+        this.currentPoolSize = poolSize;
+        this.voteCount = voteCount;
+        this.latestVotes = votes;
+        this.latestPrice = price;
 
-      this.renderState();
-
-      this.isRendering = false;
-    });
+        this.renderState();
+      })
+      .catch(() => {
+        this._render(this.elements.currentPrice, `<span class="nes-text is-error">ERROR</span>`);
+      })
+      .finally(() => {
+        this.isRendering = false;
+      });
 
     this.timers.processor = setTimeout(
       this.renderComposingScreen.bind(this),
