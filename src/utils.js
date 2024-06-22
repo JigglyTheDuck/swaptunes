@@ -173,6 +173,7 @@ export const sortOptions = (options) => {
 export const simplifyTrack = (track) => {
   const lines = track.split("\n");
   for (let i = 0; i < lines.length; ++i) {
+    if (lines[i].includes('unused')) continue
     if (lines[i].includes("sound_loop") || lines[i].includes("sound_ret")) {
       lines[i] = "  channel_end";
       if (lines[i - 1] === "  channel_end") {

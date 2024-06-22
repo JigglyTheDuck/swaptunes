@@ -20,7 +20,7 @@ export class Parser {
 
   constructor(preActionHook, _Composer = Composer) {
     this.preActionHook = preActionHook;
-    this.Composer = _Composer
+    this.Composer = _Composer;
     this.composer = new this.Composer();
   }
 
@@ -61,7 +61,7 @@ export class Parser {
     }
 
     if (cmd === "note_type") {
-      values[0] = '12';
+      values[0] = "12";
     }
 
     this.commit(cmd);
@@ -76,12 +76,13 @@ export class Parser {
     this.composer = new this.Composer();
     let currentChannel = -1;
     for (const line of str.split("\n")) {
-      if (line.trim().length === 0 || line.includes('unused')) continue;
+      if (line.trim().length === 0 || line.includes("unused")) continue;
+
       if (line.includes("::")) {
         currentChannel += 1;
         if (currentChannel > this.composer.currentChannelIndex) {
           // sound_ret was missing...
-          this.parseCmd(currentChannel, 'sound_ret', []);
+          this.parseCmd(currentChannel, "sound_ret", []);
           //this.composer.startNewChannel();
         }
         continue;
