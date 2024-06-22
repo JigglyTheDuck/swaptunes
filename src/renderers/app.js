@@ -83,7 +83,7 @@ ${dialog({
     </menu>
   </form>
 </dialog>
-<header class="inline sm justify-space-between gap-md align-center">
+<header class="inline sm justify-space-between gap-md align-start">
   <p class="nes-text hidden text align-center" id="output__message"></p>
   <p class="stack text sm">
     <span id="output__currentTime"></span>
