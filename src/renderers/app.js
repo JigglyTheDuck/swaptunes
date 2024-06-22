@@ -11,6 +11,7 @@ import {
   setQueryParams,
   parseLine,
   href,
+  formatNum,
   simplifyTrack,
   formatSeconds,
 } from "../utils";
@@ -86,7 +87,8 @@ ${dialog({
   <p class="nes-text hidden text align-center" id="output__message"></p>
   <p class="stack text sm">
     <span id="output__currentTime"></span>
-    <span id="output__currentPoolSize"></span>
+    <span class="inline wrap" id="output__currentPoolSize"></span>
+    <span class="inline wrap" id="output__currentPrice"></span>
   </p>
   <div class="inline gap-sm">
     <button id="output__actionShare" class="nes-btn is-success hidden">share</button>
@@ -187,6 +189,7 @@ export class OutputRenderer {
       pending: null,
     },
     rewardPool: null,
+    currentPrice: null,
     message: null,
     time: null,
     options: null,
@@ -305,7 +308,23 @@ export class OutputRenderer {
   _renderPool(poolSize) {
     this._render(
       this.elements.rewardPool,
-      `Reward pool: ${(10n * poolSize) / 1000000000n} GLY`
+      `<span>Reward pool:&nbsp;</span><span>${
+        (10n * poolSize) / 1000000000n
+      } GLY</span>`
+    );
+  }
+
+  _renderPrice(latestPrice) {
+    if (!latestPrice) {
+      this._hide(this.elements.currentPrice);
+      return;
+    }
+    this._render(
+      this.elements.currentPrice,
+      `<span>Price:&nbsp;</span><span>${formatNum(
+        parseFloat(formatUnits(latestPrice, "gwei")),
+        true
+      )} GLY/WGLYBETA</span>`
     );
   }
 
@@ -457,9 +476,7 @@ export class OutputRenderer {
       optionValue.classList.add("text", "sm");
       optionName.innerText = optionsAndVotes[i].option;
       const percent = `${(optionsAndVotes[i].ratio * 100).toFixed(2)}%`;
-      optionValue.innerText = `${percent} (${optionsAndVotes[i].votes.toFixed(
-        0
-      )})`;
+      optionValue.innerText = `${percent} (${formatNum(optionsAndVotes[i].votes)})`;
 
       let variant = "background-disabled";
 
@@ -572,6 +589,7 @@ export class OutputRenderer {
 
   renderState() {
     this._renderPool(this.currentPoolSize);
+    this._renderPrice(this.latestPrice);
     this._renderTime(
       Number(this.processor.previousTimestamp),
       Number(this.processor.segmentLength)
@@ -632,11 +650,12 @@ export class OutputRenderer {
       this.processor.getVotes(),
       this.processor.getRewardPoolSize(),
       this.processor.getSegmentVoteCount(),
-    ]).then(([votes, poolSize, voteCount]) => {
+      this.processor.getCurrentPrice(),
+    ]).then(([votes, poolSize, voteCount, price]) => {
       this.currentPoolSize = poolSize;
       this.voteCount = voteCount;
-
       this.latestVotes = votes;
+      this.latestPrice = price;
 
       this.renderState();
 
@@ -708,6 +727,7 @@ export class OutputRenderer {
       },
       time: _id("currentTime"),
       rewardPool: _id("currentPoolSize"),
+      currentPrice: _id("currentPrice"),
       options: _id("options"),
       message: _id("message"),
       progress: {
@@ -756,7 +776,9 @@ export class OutputRenderer {
       );
 
       let resultsText = `no contribution or rewards already claimed`;
-      const gwei = `${parseFloat(formatUnits(results.value, "gwei")).toFixed(2)} GLY`;
+      const gwei = `${parseFloat(formatUnits(results.value, "gwei")).toFixed(
+        2
+      )} GLY`;
 
       if (results.value === 0n) {
       } else if (results.lastTimestamp === this.processor.previousTimestamp) {
@@ -884,13 +906,15 @@ export class OutputRenderer {
 export default (root) => {
   const processor = new ContractProcessor(
     config.contract.address,
-    //new JsonRpcProvider("https://base.llamarpc.com")
     new WebSocketProvider(config.contract.rpcUrls[getSetting("rpcUrl")])
   );
 
   let renderer;
   new Decoder()
-    .decode(new URLSearchParams(window.location.search).get("previewTrack") || config.defaultSong)
+    .decode(
+      new URLSearchParams(window.location.search).get("previewTrack") ||
+        config.defaultSong
+    )
     .then((previewTrack) => {
       renderer = new OutputRenderer(root, processor, previewTrack);
     })

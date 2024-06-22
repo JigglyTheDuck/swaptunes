@@ -1,10 +1,38 @@
-import { Contract, id, dataSlice } from "ethers";
+import { Contract, id, dataSlice, parseUnits } from "ethers";
 import { Composer as SimpleComposer } from "../modules/simpleComposer";
 import abi from "./contract";
 import config from "../config";
 
+const routerABI = [
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amountIn",
+        type: "uint256",
+      },
+      {
+        internalType: "address[]",
+        name: "path",
+        type: "address[]",
+      },
+    ],
+    name: "getAmountsOut",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "amounts",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
 export class ContractProcessor {
   adddress;
+  routerContract;
   contract;
   contractCreation; // won't be necessary once emit on constructor
   composer;
@@ -24,10 +52,24 @@ export class ContractProcessor {
     this.composer = new SimpleComposer();
     this.provider = provider;
     this.contract = new Contract(address, abi, provider);
+    this.routerContract = new Contract(
+      config.contract.routerAddress,
+      routerABI,
+      provider
+    );
   }
 
   getLatestBlock() {
     return this.provider.getBlockNumber();
+  }
+
+  async getCurrentPrice() {
+    return (
+      await this.routerContract.getAmountsOut(parseUnits("1", 'ether'), [
+        config.contract.wrappedTokenAddress,
+        config.contract.tokenAddress
+      ])
+    )[1];
   }
 
   // for now we don't have a choice but to go back to the beginning to start composing
@@ -96,9 +138,9 @@ export class ContractProcessor {
 
   async initializeSong(blockNumber) {
     this.segmentLength = config.contract.segmentLength;
-    this.previousTimestamp = config.contract.initialTimestamp || BigInt(
-      (await this.provider.getBlock(blockNumber)).timestamp
-    );
+    this.previousTimestamp =
+      config.contract.initialTimestamp ||
+      BigInt((await this.provider.getBlock(blockNumber)).timestamp);
   }
 
   fetchLatestContribution(address) {

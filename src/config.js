@@ -1,5 +1,22 @@
-// TODO: we can get clever here, just use the 5m one
-//
+const baseConfig = {
+  rpcUrls: {
+    PUBLIC: "wss://base-rpc.publicnode.com",
+    TENDERLY: "wss://base.gateway.tenderly.co",
+    LLAMA: "https://base.llamarpc.com",
+  },
+  routerAddress: "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24",
+};
+
+function getNetwork() {
+  switch (import.meta.env.NETWORK) {
+    case "BASE":
+    default:
+      return baseConfig;
+  }
+}
+
+const network = getNetwork();
+
 export default {
   confirmationDelay: 360, // amount of seconds to wait until confirmation for recent price movements.
   sampleRate: 300, // in seconds
@@ -10,17 +27,13 @@ export default {
     tokenAddress: import.meta.env.VITE_TOKEN_ADDRESS,
     wrappedTokenAddress: import.meta.env.VITE_WRAPPED_TOKEN_ADDRESS,
     address: import.meta.env.VITE_COMPOSER_ADDRESS, // composer
-    rpcUrls: {
-      PUBLIC: "wss://base-rpc.publicnode.com",
-      TENDERLY: "wss://base.gateway.tenderly.co",
-      LLAMA: "https://base.llamarpc.com",
-    },
     initialBlock: parseInt(import.meta.env.VITE_INITIAL_BLOCK),
     segmentLength: BigInt(parseInt(import.meta.env.VITE_SEGMENT_LENGTH)),
     blockRequestLimit: parseInt(import.meta.env.VITE_BLOCK_REQUEST_LIMIT),
     initialTimestamp: BigInt(
       parseInt(import.meta.env.VITE_INITIAL_TIMESTAMP || 0)
     ),
+    ...network,
   },
   market: {
     songLengthOptions: [50, 100, 150, 200],

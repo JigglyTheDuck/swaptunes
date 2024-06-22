@@ -1,3 +1,33 @@
+export function formatNum(n, shorten = false) {
+  if (!shorten) {
+    // Convert the number to a string
+    let numStr = n.toString();
+
+    // Split the number into the integer and decimal parts
+    let [integerPart, decimalPart] = numStr.split(".");
+
+    // Add thousand separators to the integer part
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, "");
+
+    // Combine the integer part and the decimal part if it exists
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  }
+
+  if (n > 10000000000) {
+    return `${(n / 1000000000).toFixed(0)}B`;
+  }
+
+  if (n > 10000000) {
+    return `${(n / 1000000).toFixed(0)}M`;
+  }
+
+  if (n > 10000) {
+    return `${(n / 1000).toFixed(0)}K`;
+  }
+
+  return n.toFixed(2);
+}
+
 export function checksum(s) {
   var chk = 0x12345678;
   var len = s.length;
