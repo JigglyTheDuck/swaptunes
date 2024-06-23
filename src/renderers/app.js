@@ -238,10 +238,14 @@ export class OutputRenderer {
     const endsAt = timestamp + segmentLength;
     if (endsAt > this.now) {
       const minutesLeft = clearTimeout(this.timers.time);
-      this._render(
-        this.elements.time,
-        `Ends in ${formatSeconds(endsAt - this.now)}`
-      );
+      if (this.now % 15 < 5) {
+        this._render(this.elements.time, `${this.voteCount} votes`);
+      } else {
+        this._render(
+          this.elements.time,
+          `Ends in ${formatSeconds(endsAt - this.now)}`
+        );
+      }
       this.timers.time = setTimeout(
         () => this._renderTime(timestamp, segmentLength),
         500
