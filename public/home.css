@@ -88,10 +88,13 @@ a.nes-btn,
   font-style: normal;
   line-height: 1.5em;
 }
-.tgram {
+.link-icon {
   image-rendering: pixelated;
-  width: 48px;
   height: 48px;
+}
+.dextools {
+  font-family: "Press Start 2P", monospace !important;
+  color: var(--text-primary);
 }
 body {
   background: var(--color-background) !important;
