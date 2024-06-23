@@ -182,7 +182,9 @@ export class Composer {
 
   _getCurrentOptions() {
     if (!this.currentCommand.cmd)
-      return samplingConfig.commands.map(({ cmd }) => cmd);
+      return samplingConfig.commands
+        .slice(0, this.channelLoopCount > 0 ? -1 : undefined)
+        .map(({ cmd }) => cmd);
     /*
         .filter(
           (cmd) => this.currentChannelIndex !== 2 || cmd !== "duty_cycle"
@@ -219,6 +221,11 @@ export class Composer {
 
   applyOption(optionIndex) {
     if (this.isFinished) return;
+    const options = this.getNextOptions();
+    if (optionIndex >= options.length) {
+      debugger;
+      return;
+    }
     const selectedOption = this.getNextOptions()[optionIndex].option;
 
     if (selectedOption === undefined) throw new Error("unsupported option");
@@ -286,7 +293,7 @@ export class Composer {
 
         if (command.cmd === "channel_end") {
           if (currentLoop !== -1)
-            trackStr += `  sound_loop 0, .loop${currentLoop}\n`;
+            trackStr += `  sound_loop 0, .loop${currentLoop}\n  sound_ret \n`;
           else trackStr += `  sound_ret \n`;
 
           continue;

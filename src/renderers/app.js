@@ -353,7 +353,9 @@ export class OutputRenderer {
       return null;
     }
 
-    const [cmd, values] = previewCommand.includes(":")
+    const [cmd, values] = previewCommand.includes("sound_loop")
+      ? ["channel_end", []]
+      : previewCommand.includes(":")
       ? ["new_loop", []]
       : parseLine(previewCommand);
     if (composer.currentCommand.cmd === null) {
@@ -663,7 +665,10 @@ export class OutputRenderer {
         this.renderState();
       })
       .catch(() => {
-        this._render(this.elements.currentPrice, `<span class="nes-text is-error">ERROR</span>`);
+        this._render(
+          this.elements.currentPrice,
+          `<span class="nes-text is-error">ERROR</span>`
+        );
       })
       .finally(() => {
         this.isRendering = false;
