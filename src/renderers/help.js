@@ -8,8 +8,10 @@ const helpHomeTemplate = () => `
 
   <form id="menu-nav" class="menu-nav stack gap-md">
     ${navItem({
-      to: "help/intro",
-      label: "Get started",
+      to:
+        "https://github.com/JigglyTheDuck/docs/blob/master/guide-final.pdf",
+      label: "The guide",
+      external: true,
     })}
     ${navItem({
       to:
