@@ -108,9 +108,10 @@ function getRenderer(hash) {
       return settingsRenderer;
     case "#jukebox":
       return jukeboxRenderer;
+      /*
     case "#app/advanced":
     case "#app":
-      return app2Renderer;
+      return app2Renderer;*/
     case "#composer":
       return composerRenderer;
     case "#priceComposer":

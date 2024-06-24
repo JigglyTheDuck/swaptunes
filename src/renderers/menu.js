@@ -8,13 +8,9 @@ const template = () => `<div class="menu stack gap-lg">
 </header>
 <form id="menu-nav" class="menu-nav stack gap-md">
     ${navItem({
-      to: "app",
-      label: "LAUNCH APP",
-      id: "menu-initial-focus",
-    })}
-    ${navItem({
       to: "composer",
       label: "Composer",
+      id: "menu-initial-focus",
     })}
     ${navItem({
       to: "jukebox",
@@ -23,6 +19,11 @@ const template = () => `<div class="menu stack gap-lg">
     ${navItem({
       to: "settings",
       label: "Settings",
+    })}
+    ${navItem({
+      to: "app",
+      label: "LAUNCH APP",
+      disabled: true
     })}
     ${navItem({
       to: "dao",
