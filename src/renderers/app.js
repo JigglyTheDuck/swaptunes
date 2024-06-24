@@ -328,7 +328,7 @@ export class OutputRenderer {
       `<span>Price:&nbsp;</span><span>${formatNum(
         parseFloat(formatUnits(latestPrice, "gwei")),
         true
-      )} GLY/WGLYBETA</span>`
+      )} GLY/ETH</span>`
     );
   }
 
@@ -357,11 +357,13 @@ export class OutputRenderer {
       return null;
     }
 
-    const [cmd, values] = previewCommand.includes("sound_loop")
-      ? ["channel_end", []]
-      : previewCommand.includes(":")
-      ? ["new_loop", []]
-      : parseLine(previewCommand);
+    const [cmd, values] =
+      previewCommand.includes("sound_loop") ||
+      previewCommand.includes("sound_ret")
+        ? ["channel_end", []]
+        : previewCommand.includes(":")
+        ? ["new_loop", []]
+        : parseLine(previewCommand);
     if (composer.currentCommand.cmd === null) {
       return options.findIndex((o) => o.option === cmd);
     }
@@ -942,7 +944,7 @@ export default (root) => {
       try {
         await processor.process(
           renderer.renderProcessing.bind(renderer),
-          await processor.findSongFirstBlock(config.contract.initialBlock)
+          await processor.findSongFirstBlock(config.contract.initialBlock) + 1
         );
       } catch (e) {
         console.error(e);
