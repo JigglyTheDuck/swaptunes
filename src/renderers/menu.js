@@ -25,11 +25,6 @@ const template = () => `<div class="menu stack gap-lg">
       label: "Settings",
     })}
     ${navItem({
-      to: "https://wrap.jiggly.app",
-      label: "Wrapper tool",
-      external: true,
-    })}
-    ${navItem({
       to: "dao",
       label: "DAO",
       disabled: true,
